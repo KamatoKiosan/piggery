@@ -2,7 +2,7 @@ testexe = executable(
     'testexe', # test executable name 
     'main_test.cpp', # tests source files to be compiled
     include_directories : inc,  # declared include directories in root :code:`meson.build`
-    link_with : libuuid) # link test executable with previously declared shared library :code:`libuuid`
+    link_with : libpiggery) # link test executable with previously declared shared library :code:`libuuid`
 
 # test execution 
 test('Piggery test', testexe)
