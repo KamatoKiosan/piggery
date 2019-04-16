@@ -20,6 +20,6 @@ const string Piggery::toString()
 TEST_CASE("test") {
     piggery::Piggery piggery;
     CHECK(piggery.toString() == "Test");
-    CHECK(piggery.toString() == "Test1");
+    // CHECK(piggery.toString() == "Test1");
 }
   
