@@ -1,4 +1,3 @@
-#define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest.h"
 #include "piggery.hpp"
 
@@ -16,5 +15,11 @@ const string Piggery::toString()
 	return "Test";
 }
 
+}
+
+TEST_CASE("test") {
+    piggery::Piggery piggery;
+    CHECK(piggery.toString() == "Test");
+    CHECK(piggery.toString() == "Test1");
 }
   
