@@ -1,3 +1,4 @@
+#define DOCTEST_CONFIG_IMPLEMENTATION_IN_DLL
 #include "doctest.h"
 #include "piggery.hpp"
 
@@ -22,4 +23,6 @@ TEST_CASE("test") {
     CHECK(piggery.toString() == "Test");
     // CHECK(piggery.toString() == "Test1");
 }
-  
+
+DOCTEST_SYMBOL_EXPORT void from_dll();   // to silence "-Wmissing-declarations" with GCC
+DOCTEST_SYMBOL_EXPORT void from_dll() {} // force the creation of a .lib file with MSVC
