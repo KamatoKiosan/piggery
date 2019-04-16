@@ -1,5 +1,5 @@
 project(
-    'cpp-meson-example', # project name
+    'piggery', # project name
     'cpp', # C++ project, e.g: for C project
     version : '0.1.0',
     license : 'MIT',

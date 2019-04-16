@@ -1,42 +1,15 @@
-/*
- * Uuid.h
- *      Author: carlos
- */
+#pragma once
+#include <string>
 
-#ifndef UUID_H_
-#define UUID_H_
+namespace piggery {
 
-#include <random>
-
-namespace ids {
-
-class Uuid {
+class Piggery {
 private:
-	static constexpr char SEP = '-';
-	static constexpr short FIRST_SEP_POSITION = 8;
-
-	static int64_t get_rnd();
 
 public:
-	const int64_t most, least;
+	Piggery();
 
-	Uuid(int64_t most, int64_t least);
-	/**
-	 * automatic generation of this uuid
-	 * */
-	Uuid();
-
-	Uuid(const Uuid & id);
-
-	bool operator==(const Uuid & id);
-	bool operator!=(const Uuid & id);
-
-	~Uuid() = default;
-
-	const std::string to_str();
-
+	const std::string toString();
 };
 
-} /* namespace ids */
-
-#endif /* UUID_H_ */
+}

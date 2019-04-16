@@ -1,9 +1,9 @@
-#include "Uuid.h"
+#include "piggery.hpp"
 #include <iostream>
 
 int main() 
 {
-    ids::Uuid uuid;
-    std::cout << uuid.to_str() << std::endl;
+    piggery::Piggery piggery;
+    std::cout << piggery.toString() << std::endl;
     return 0;
 }

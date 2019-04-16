@@ -1,6 +1,6 @@
 libuuid = shared_library(
     'uuid', # library name
-    'Uuid.cpp', # source files to be compiled
+    'piggery.cpp', # source files to be compiled
     include_directories : inc, # previously declared include directories in root :code:`meson.build`
     install : true) # :code:`libuuid` will be part of project installation
 
