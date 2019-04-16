@@ -1,4 +1,3 @@
-#define DOCTEST_CONFIG_IMPLEMENTATION_IN_DLL
 #include "doctest.h"
 #include "piggery.hpp"
 
@@ -21,8 +20,8 @@ const string Piggery::toString()
 TEST_CASE("test") {
     piggery::Piggery piggery;
     CHECK(piggery.toString() == "Test");
-    // CHECK(piggery.toString() == "Test1");
+//    CHECK(piggery.toString() == "Test1");
 }
 
-DOCTEST_SYMBOL_EXPORT void from_dll();   // to silence "-Wmissing-declarations" with GCC
-DOCTEST_SYMBOL_EXPORT void from_dll() {} // force the creation of a .lib file with MSVC
+// DOCTEST_SYMBOL_EXPORT void from_dll();   // to silence "-Wmissing-declarations" with GCC
+// DOCTEST_SYMBOL_EXPORT void from_dll() {} // force the creation of a .lib file with MSVC
