@@ -7,5 +7,6 @@ int main()
 {
     piggery::Piggery piggery;
     std::cout << piggery.toString() << std::endl;
+    piggery.testJson();
     return 0;
 }

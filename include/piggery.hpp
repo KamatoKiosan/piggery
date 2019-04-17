@@ -10,6 +10,7 @@ public:
 	Piggery();
 
 	const std::string toString();
+    void testJson(void);
 };
 
 }
