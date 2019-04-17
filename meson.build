@@ -4,7 +4,7 @@ project(
     version : '0.1.0',
     license : 'MIT',
     default_options : [
-        'warning_level=3',
+        #        'warning_level=3',
         'cpp_std=c++14']) # compile for C++
 
 # it will be referred from subdir projects
