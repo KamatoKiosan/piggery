@@ -36,4 +36,5 @@
 .ninja_log
 
 # Build directory
-/builddir
+/builddirclang
+/builddirgcc

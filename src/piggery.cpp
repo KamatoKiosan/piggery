@@ -1,17 +1,16 @@
+#include "../include/doctest.h"
 #include <iostream>
-#include <nlohmann/json.hpp>
-#include "doctest.h"
-#include "piggery.hpp"
+#include "../include/nlohmann/json.hpp"
+#include <vector>
+#include "../include/piggery.hpp"
+#include "../include/category.hpp"
 
 namespace piggery {
 
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery()
-{
-
-}
+Piggery::Piggery(): treeRootNode{Category{"Root"}} {}
 
 const string Piggery::toString()
 {
@@ -31,6 +30,10 @@ void Piggery::testJson()
     cout << j.dump(4) << endl;
 }
 
+const Category Piggery::getTreeRootNode() const {
+    return treeRootNode;
+}
+
 }
 
 TEST_CASE("test") {
@@ -39,5 +42,12 @@ TEST_CASE("test") {
 //    CHECK(piggery.toString() == "Test1");
 }
 
-// DOCTEST_SYMBOL_EXPORT void from_dll();   // to silence "-Wmissing-declarations" with GCC
-// DOCTEST_SYMBOL_EXPORT void from_dll() {} // force the creation of a .lib file with MSVC
+TEST_CASE("instantiate") {
+    piggery::Piggery piggery;
+
+    SUBCASE("no categories") {
+        CHECK(piggery.getTreeRootNode().getName() == "Root");
+        CHECK(piggery.getTreeRootNode().getSubcategories().size() == 0);
+    }
+}
+
