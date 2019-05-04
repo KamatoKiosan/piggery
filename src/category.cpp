@@ -1,7 +1,6 @@
 #include "../include/category.hpp"
 
-Category::Category(std::string name): name{name}, subcategories{}, percentage{0.0f}, cents{0} {}
-
+Category::Category(std::string name): name{name}, subcategories{}, percentage{0.0f} {}
 
 const std::string Category::getName() const {
     return name;
@@ -15,6 +14,6 @@ const float Category::getPercentage() const {
     return percentage;
 }
 
-const int Category::getCents() const {
-    return cents;
+const Piggybank Category::getPiggybank() const {
+    return piggybank;
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "piggybank.hpp"
 
 class Category
 {
@@ -10,11 +11,11 @@ class Category
         const std::string getName() const;
         const std::vector<Category> getSubcategories() const;
         const float getPercentage() const;
-        const int getCents() const;
+        const Piggybank getPiggybank() const;
 
     private:
         std::string name;
         std::vector<Category> subcategories;
         float percentage;
-        int cents;
+        Piggybank piggybank;
 };
