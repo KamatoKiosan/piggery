@@ -6,7 +6,7 @@ const std::string Category::getName() const {
     return name;
 }
 
-const std::vector<Category> Category::getSubcategories() const {
+std::vector<Category>& Category::getSubcategories() {
     return subcategories;
 }
 
@@ -16,4 +16,9 @@ const float Category::getPercentage() const {
 
 const Piggybank Category::getPiggybank() const {
     return piggybank;
+}
+
+
+void Category::addSubcategory(const Category category) {
+    subcategories.push_back(category);
 }
