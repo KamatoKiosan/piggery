@@ -12,7 +12,7 @@ public:
 
 	const std::string toString();
     void testJson(void);
-    Category getTreeRootNode();
+    Category& getTreeRootNode();
 
 private:
     Category treeRootNode;

@@ -30,7 +30,7 @@ void Piggery::testJson()
     cout << j.dump(4) << endl;
 }
 
-Category Piggery::getTreeRootNode() {
+Category& Piggery::getTreeRootNode() {
     return treeRootNode;
 }
 

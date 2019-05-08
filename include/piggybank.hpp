@@ -5,6 +5,7 @@
 class Piggybank
 {
     public:
+        Piggybank(const std::string name);
         Piggybank();
 
         const std::string getName() const;

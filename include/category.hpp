@@ -9,14 +9,15 @@ class Category
         Category(std::string name);
 
         const std::string getName() const;
-        std::vector<Category>& getSubcategories();
         const float getPercentage() const;
-        const Piggybank getPiggybank() const;
-        void addSubcategory(const Category);
+        void addSubcategory(const Category&);
+        std::vector<Category>& getSubcategories();
+        void addPiggybank(const Piggybank&);
+        std::vector<Piggybank>& getPiggybanks();
 
     private:
         std::string name;
-        std::vector<Category> subcategories;
         float percentage;
-        Piggybank piggybank;
+        std::vector<Category> subcategories;
+        std::vector<Piggybank> piggybanks;
 };

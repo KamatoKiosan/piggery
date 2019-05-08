@@ -1,24 +1,30 @@
 #include "../include/category.hpp"
+#include "../include/piggybank.hpp"
+#include <iostream>
 
-Category::Category(std::string name): name{name}, subcategories{}, percentage{0.0f} {}
+Category::Category(std::string name): name{name}, percentage{0.0f}, subcategories{}, piggybanks{} {}
 
 const std::string Category::getName() const {
     return name;
-}
-
-std::vector<Category>& Category::getSubcategories() {
-    return subcategories;
 }
 
 const float Category::getPercentage() const {
     return percentage;
 }
 
-const Piggybank Category::getPiggybank() const {
-    return piggybank;
+void Category::addSubcategory(const Category& category) {
+    subcategories.push_back(category);
 }
 
+std::vector<Category>& Category::getSubcategories() {
+    return subcategories;
+}
 
-void Category::addSubcategory(const Category category) {
-    subcategories.push_back(category);
+void Category::addPiggybank(const Piggybank& piggybank) {
+    std::cout << "addPiggybank(" << piggybank.getName() << ")" << std::endl;
+    piggybanks.push_back(piggybank);
+}
+
+std::vector<Piggybank>& Category::getPiggybanks() {
+    return piggybanks;
 }
