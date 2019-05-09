@@ -10,9 +10,7 @@ void traverseSubcategories(Category& category) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
         cout << "Category name: " << subcategory.getName() << endl;
-        cout << "piggybanks.size(): " << category.getPiggybanks().size() << endl;
-        for (Piggybank& piggybank : category.getPiggybanks()) {
-            cout << "Hello!" << endl;
+        for (Piggybank& piggybank : subcategory.getPiggybanks()) {
             cout << "Piggybank name: " << piggybank.getName() << endl;
         }
         traverseSubcategories(subcategory);
