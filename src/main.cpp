@@ -10,8 +10,11 @@ void traverseSubcategories(Category& category) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
         cout << "Category name: " << subcategory.getName() << endl;
+        cout << "Category percentage: " << subcategory.getPercentage() << endl;
+
         for (Piggybank& piggybank : subcategory.getPiggybanks()) {
             cout << "Piggybank name: " << piggybank.getName() << endl;
+            cout << "Piggybank percentage: " << piggybank.getPercentage() << endl;
         }
         traverseSubcategories(subcategory);
     }
@@ -25,18 +28,25 @@ int main()
 
     Category treeRootNode = piggery.getTreeRootNode();
     Category category1{"Category1"};
+    category1.setPercentage(0.5f);
     Category category11{"Category11"};
+    category11.setPercentage(0.5f);
     Piggybank piggybank11{"Piggybank11"};
+    piggybank11.setPercentage(1.0f);
     category11.addPiggybank(piggybank11);
     category1.addSubcategory(category11);
     Category category12{"Category12"};
+    category12.setPercentage(0.5f);
     category1.addSubcategory(category12);
     treeRootNode.addSubcategory(category1);
 
     Category category2{"Category2"};
+    category2.setPercentage(0.5f);
     Category category21{"Category21"};
+    category21.setPercentage(0.5f);
     category2.addSubcategory(category21);
     Category category22{"Category22"};
+    category22.setPercentage(0.5f);
     category2.addSubcategory(category22);
     treeRootNode.addSubcategory(category2);
 

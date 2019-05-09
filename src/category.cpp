@@ -8,6 +8,10 @@ const std::string Category::getName() const {
     return name;
 }
 
+void Category::setPercentage(const float percent) {
+    percentage = percent;
+}
+
 const float Category::getPercentage() const {
     return percentage;
 }
@@ -21,7 +25,6 @@ std::vector<Category>& Category::getSubcategories() {
 }
 
 void Category::addPiggybank(const Piggybank& piggybank) {
-    std::cout << "addPiggybank(" << piggybank.getName() << ")" << std::endl;
     piggybanks.push_back(piggybank);
 }
 

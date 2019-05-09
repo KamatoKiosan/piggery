@@ -9,6 +9,7 @@ class Category
         Category(std::string name);
 
         const std::string getName() const;
+        void setPercentage(const float percent);
         const float getPercentage() const;
         void addSubcategory(const Category&);
         std::vector<Category>& getSubcategories();
