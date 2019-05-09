@@ -6,17 +6,19 @@
 
 using namespace std;
 
-void traverseSubcategories(Category& category) {
+void traverseSubcategories(Category& category, float superpercentage) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
         cout << "Category name: " << subcategory.getName() << endl;
         cout << "Category percentage: " << subcategory.getPercentage() << endl;
+        cout << "Category percentage accumulated: " << superpercentage * subcategory.getPercentage() << endl;
 
         for (Piggybank& piggybank : subcategory.getPiggybanks()) {
             cout << "Piggybank name: " << piggybank.getName() << endl;
             cout << "Piggybank percentage: " << piggybank.getPercentage() << endl;
+            cout << "Piggybank percentage accumulated: " << superpercentage * subcategory.getPercentage() * piggybank.getPercentage() << endl;
         }
-        traverseSubcategories(subcategory);
+        traverseSubcategories(subcategory, superpercentage * subcategory.getPercentage());
     }
 }
 
@@ -50,7 +52,7 @@ int main()
     category2.addSubcategory(category22);
     treeRootNode.addSubcategory(category2);
 
-    traverseSubcategories(treeRootNode);
+    traverseSubcategories(treeRootNode, 1.0f);
 
     return 0;
 }
