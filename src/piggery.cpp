@@ -10,7 +10,9 @@ namespace piggery {
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery(): treeRootNode{Category{"Root"}} {}
+Piggery::Piggery(const char* sqlite3Filepath): treeRootNode{Category{"Root"}} {
+    sqlite3_open(sqlite3Filepath, &database);
+}
 
 const string Piggery::toString()
 {
@@ -76,13 +78,13 @@ float Piggery::calculatePercentageSum(Category& category, const float superperce
 }
 
 TEST_CASE("test") {
-    piggery::Piggery piggery;
+    piggery::Piggery piggery{":MEMORY:"};
     CHECK(piggery.toString() == "Test");
 //    CHECK(piggery.toString() == "Test1");
 }
 
 TEST_CASE("instantiate") {
-    piggery::Piggery piggery;
+    piggery::Piggery piggery{":MEMORY:"};
 
     SUBCASE("no categories") {
         CHECK(piggery.getTreeRootNode().getName() == "Root");

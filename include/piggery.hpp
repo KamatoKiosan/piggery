@@ -2,13 +2,15 @@
 #include <string>
 #include <vector>
 #include "category.hpp" 
+#include <stdio.h>
+#include <sqlite3.h>
 
 namespace piggery {
 
 class Piggery {
 
 public:
-	Piggery();
+	Piggery(const char* sqlite3Filepath);
 
 	const std::string toString();
     void testJson(void);
@@ -18,5 +20,6 @@ public:
 
 private:
     Category treeRootNode;
+    sqlite3 *database;
 };
 }
