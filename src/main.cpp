@@ -6,44 +6,6 @@
 
 using namespace std;
 
-void distributeMoney(Category& category, const int cents, const float superpercentage = 1.0f) {
-    for (Category& subcategory : category.getSubcategories()) {
-        cout << endl;
-        cout << "Category name: " << subcategory.getName() << endl;
-        cout << "Category percentage: " << subcategory.getPercentage() << endl;
-        cout << "Category percentage accumulated: " << superpercentage * subcategory.getPercentage() << endl;
-
-        for (Piggybank& piggybank : subcategory.getPiggybanks()) {
-            cout << "Piggybank name: " << piggybank.getName() << endl;
-            cout << "Piggybank percentage: " << piggybank.getPercentage() << endl;
-            cout << "Piggybank percentage accumulated: " << superpercentage * subcategory.getPercentage() * piggybank.getPercentage() << endl;
-            cout << "This piggybank gets " << cents * superpercentage * subcategory.getPercentage() * piggybank.getPercentage() / 100  << " credits" << endl;
-        }
-        distributeMoney(subcategory, cents, superpercentage * subcategory.getPercentage());
-    }
-}
-
-float calculatePercentageSum(Category& category, const float superpercentage = 1.0f) {
-    float piggybanksPercentageSum = 0.0f;
-    float subPercentage = 0.0f;
-    for (Category& subcategory : category.getSubcategories()) {
-        cout << endl;
-        cout << "Category name: " << subcategory.getName() << endl;
-        cout << "Category percentage: " << subcategory.getPercentage() << endl;
-        cout << "Category percentage accumulated: " << superpercentage * subcategory.getPercentage() << endl;
-
-        for (Piggybank& piggybank : subcategory.getPiggybanks()) {
-            cout << "Piggybank name: " << piggybank.getName() << endl;
-            cout << "Piggybank percentage: " << piggybank.getPercentage() << endl;
-            cout << "Piggybank percentage accumulated: " << superpercentage * subcategory.getPercentage() * piggybank.getPercentage() << endl;
-            piggybanksPercentageSum += superpercentage * subcategory.getPercentage() * piggybank.getPercentage();
-        }
-        subPercentage += calculatePercentageSum(subcategory, superpercentage * subcategory.getPercentage());
-    }
-    float percentage = piggybanksPercentageSum + subPercentage;
-    return percentage;
-}
-
 int main() 
 {
     piggery::Piggery piggery;
@@ -97,9 +59,9 @@ int main()
     treeRootNode.addSubcategory(category2);
 
 
-    float percentageSum = calculatePercentageSum(treeRootNode);
+    float percentageSum = piggery.calculatePercentageSum(treeRootNode);
     cout << "percentageSum: " << percentageSum << endl << endl;
-    distributeMoney(treeRootNode, 100*100);
+    piggery.distributeMoney(treeRootNode, 100*100);
 
     return 0;
 }
