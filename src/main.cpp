@@ -8,7 +8,7 @@ using namespace std;
 
 int main() 
 {
-    piggery::Piggery piggery{"sqlite3.db"};
+    piggery::Piggery piggery{"test.db"};
     std::cout << piggery.toString() << std::endl;
     //piggery.testJson();
 
