@@ -10,8 +10,20 @@ namespace piggery {
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery(const char* sqlite3Filepath): treeRootNode{Category{"Root"}} {
-    sqlite3_open(sqlite3Filepath, &database);
+Piggery::Piggery(const std::string& sqlite3Filepath): treeRootNode{Category{"Root"}},
+    databaseConnected{false} {
+    if(sqlite3_open(sqlite3Filepath.data(), &database) == SQLITE_OK)
+    {
+        databaseConnected = true;
+        //sqlite3_exec(database, )
+    } else {
+        cerr << "Can't open database: " << sqlite3Filepath << sqlite3_errmsg(database) << endl;
+        sqlite3_close(database);
+    }
+}
+
+Piggery::~Piggery() {
+    sqlite3_close(database);
 }
 
 const string Piggery::toString()

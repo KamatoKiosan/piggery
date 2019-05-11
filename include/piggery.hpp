@@ -10,7 +10,8 @@ namespace piggery {
 class Piggery {
 
 public:
-	Piggery(const char* sqlite3Filepath);
+	Piggery(const std::string& sqlite3Filepath);
+    ~Piggery();
 
 	const std::string toString();
     void testJson(void);
@@ -21,5 +22,6 @@ public:
 private:
     Category treeRootNode;
     sqlite3 *database;
+    bool databaseConnected;
 };
 }
