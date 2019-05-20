@@ -39,6 +39,6 @@
 /builddirclang
 /builddirgcc
 
-# Database
+# Database files
 *.db
 
