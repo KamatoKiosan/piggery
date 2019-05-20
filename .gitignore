@@ -38,3 +38,7 @@
 # Build directory
 /builddirclang
 /builddirgcc
+
+# Database
+*.db
+
