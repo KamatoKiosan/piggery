@@ -16,8 +16,8 @@ public:
 	const std::string toString();
     void testJson(void);
     Category& getTreeRootNode();
-    void distributeMoney(Category& category, const int cents, const float superpercentage = 1.0f);
-    float calculatePercentageSum(Category& category, const float superpercentage = 1.0f);
+    void distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMill = 1000);
+    unsigned int calculatePerMillSum(Category& category, const unsigned int superPerMill = 1000);
 
 private:
     Category treeRootNode;

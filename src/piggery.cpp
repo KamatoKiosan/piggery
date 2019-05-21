@@ -49,42 +49,43 @@ Category& Piggery::getTreeRootNode() {
 }
 
 
-void Piggery::distributeMoney(Category& category, const int cents, const float superpercentage) {
+void Piggery::distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMill) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
         cout << "Category name: " << subcategory.getName() << endl;
-        cout << "Category percentage: " << subcategory.getPercentage() << endl;
-        cout << "Category percentage accumulated: " << superpercentage * subcategory.getPercentage() << endl;
+        cout << "Category perMill: " << subcategory.getPerMill() << endl;
+        cout << "Category perMill accumulated: " << superPerMill * subcategory.getPerMill() / 1000 << endl;
 
         for (Piggybank& piggybank : subcategory.getPiggybanks()) {
             cout << "Piggybank name: " << piggybank.getName() << endl;
-            cout << "Piggybank percentage: " << piggybank.getPercentage() << endl;
-            cout << "Piggybank percentage accumulated: " << superpercentage * subcategory.getPercentage() * piggybank.getPercentage() << endl;
-            cout << "This piggybank gets " << cents * superpercentage * subcategory.getPercentage() * piggybank.getPercentage() / 100  << " credits" << endl;
+            cout << "Piggybank perMill: " << piggybank.getPerMill() << endl;
+            cout << "Piggybank perMill accumulated: " << superPerMill * subcategory.getPerMill() / 1000 * piggybank.getPerMill() / 1000 << endl;
+            // cout << "cents: " << cents << " superPerMill: " << superPerMill << " subcategory.getPerMill: " << subcategory.getPerMill() << " piggybank.getPerMill: " << piggybank.getPerMill() << endl;
+            cout << "This piggybank gets " << cents * superPerMill / 1000 * subcategory.getPerMill() / 1000 * piggybank.getPerMill() / 1000 << " cents" << endl;
         }
-        distributeMoney(subcategory, cents, superpercentage * subcategory.getPercentage());
+        distributeMoney(subcategory, cents, superPerMill * subcategory.getPerMill() / 1000);
     }
 }
 
-float Piggery::calculatePercentageSum(Category& category, const float superpercentage) {
-    float piggybanksPercentageSum = 0.0f;
-    float subPercentage = 0.0f;
+unsigned int Piggery::calculatePerMillSum(Category& category, const unsigned int superPerMill) {
+    unsigned int piggybanksPerMillSum = 0;
+    unsigned int subPerMill = 0;
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
         cout << "Category name: " << subcategory.getName() << endl;
-        cout << "Category percentage: " << subcategory.getPercentage() << endl;
-        cout << "Category percentage accumulated: " << superpercentage * subcategory.getPercentage() << endl;
+        cout << "Category perMill: " << subcategory.getPerMill() << endl;
+        cout << "Category perMill accumulated: " << superPerMill * subcategory.getPerMill() / 1000 << endl;
 
         for (Piggybank& piggybank : subcategory.getPiggybanks()) {
             cout << "Piggybank name: " << piggybank.getName() << endl;
-            cout << "Piggybank percentage: " << piggybank.getPercentage() << endl;
-            cout << "Piggybank percentage accumulated: " << superpercentage * subcategory.getPercentage() * piggybank.getPercentage() << endl;
-            piggybanksPercentageSum += superpercentage * subcategory.getPercentage() * piggybank.getPercentage();
+            cout << "Piggybank perMill: " << piggybank.getPerMill() << endl;
+            cout << "Piggybank perMill accumulated: " << superPerMill * subcategory.getPerMill() / 1000 * piggybank.getPerMill() / 1000 << endl;
+            piggybanksPerMillSum += superPerMill * subcategory.getPerMill() / 1000 * piggybank.getPerMill() / 1000; 
         }
-        subPercentage += calculatePercentageSum(subcategory, superpercentage * subcategory.getPercentage());
+        subPerMill += calculatePerMillSum(subcategory, superPerMill * subcategory.getPerMill() / 1000);
     }
-    float percentage = piggybanksPercentageSum + subPercentage;
-    return percentage;
+    unsigned int perMill = piggybanksPerMillSum + subPerMill;
+    return perMill;
 }
 
 }

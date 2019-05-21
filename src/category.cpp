@@ -2,18 +2,18 @@
 #include "../include/piggybank.hpp"
 #include <iostream>
 
-Category::Category(std::string name): name{name}, percentage{0.0f}, subcategories{}, piggybanks{} {}
+Category::Category(std::string name): name{name}, perMill{1000}, subcategories{}, piggybanks{} {}
 
 const std::string Category::getName() const {
     return name;
 }
 
-void Category::setPercentage(const float percent) {
-    percentage = percent;
+void Category::setPerMill(const unsigned int myPerMill) {
+    perMill = myPerMill;
 }
 
-const float Category::getPercentage() const {
-    return percentage;
+const unsigned int Category::getPerMill() const {
+    return perMill;
 }
 
 void Category::addSubcategory(const Category& category) {

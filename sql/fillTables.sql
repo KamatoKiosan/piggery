@@ -2,17 +2,17 @@ INSERT INTO category(name, percentage, parentCategoryId)
 VALUES
 (
     'Root',
-    100,
+    1000,
     NULL
 ),
 (
     'Category 1',
-    50,
+    500,
     1
 ),
 (
     'Category 2',
-    50,
+    500,
     1
 );
 
@@ -20,7 +20,7 @@ INSERT INTO piggybank(name, percentage, balanceInCents, goalInCents, remark, cat
 VALUES
 (
     'Piggybank 11',
-    50,
+    500,
     0,
     100,
     'remark 11',
@@ -28,7 +28,7 @@ VALUES
 ),
 (
     'Piggybank 12',
-    50,
+    500,
     0,
     100,
     'remark 12',
@@ -36,7 +36,7 @@ VALUES
 ),
 (
     'Piggybank 21',
-    50,
+    500,
     0,
     100,
     'remark 21',
@@ -44,7 +44,7 @@ VALUES
 ),
 (
     'Piggybank 22',
-    50,
+    500,
     0,
     100,
     'remark 22',
