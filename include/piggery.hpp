@@ -3,7 +3,7 @@
 #include <vector>
 #include "category.hpp" 
 #include <stdio.h>
-#include <sqlite3.h>
+#include "../include/sqlite_modern_cpp.h"
 
 namespace piggery {
 
@@ -21,7 +21,6 @@ public:
 
 private:
     Category treeRootNode;
-    sqlite3 *database;
-    bool databaseConnected;
+    sqlite::database db;
 };
 }

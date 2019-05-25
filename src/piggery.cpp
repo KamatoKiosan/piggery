@@ -10,20 +10,30 @@ namespace piggery {
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery(const std::string& sqlite3Filepath): treeRootNode{Category{"Root"}},
-    databaseConnected{false} {
-    if(sqlite3_open(sqlite3Filepath.data(), &database) == SQLITE_OK)
-    {
-        databaseConnected = true;
-        //sqlite3_exec(database, )
-    } else {
-        cerr << "Can't open database: " << sqlite3Filepath << sqlite3_errmsg(database) << endl;
-        sqlite3_close(database);
-    }
-}
+Piggery::Piggery(const std::string& sqlite3Filepath): treeRootNode{Category{"Root"}}, db{sqlite3Filepath} {
+    db <<
+        "CREATE TABLE IF NOT EXISTS category ("
+        "rowid INTEGER PRIMARY KEY, "
+        "name TEXT NOT NULL, "
+        "perMille INTEGER NOT NULL, "
+        "parentCategoryId INTEGER NOT NULL"
+        ");";
+    db <<
+        "CREATE TABLE IF NOT EXISTS piggybank ("
+        "rowid INTEGER PRIMARY KEY, "
+        "name TEXT NOT NULL, "
+        "perMille INTEGER NOT NULL, "
+        "balanceInCents INTEGER NOT NULL, "
+        "goalInCents INTEGER, "
+        "remark TEXT NOT NULL, "
+        "categoryId INTEGER"
+        ");";
+    db <<
+        "CREATE INDEX IF NOT EXISTS idx_piggybank_categoryId"
+        " ON piggybank (categoryId);";
+};
 
 Piggery::~Piggery() {
-    sqlite3_close(database);
 }
 
 const string Piggery::toString()
