@@ -16,8 +16,9 @@ public:
 	const std::string toString();
     void testJson(void);
     Category& getTreeRootNode();
-    void distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMill = 1000);
-    unsigned int calculatePerMillSum(Category& category, const unsigned int superPerMill = 1000);
+    void distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMille = 1000);
+    unsigned int calculatePerMilleSum(Category& category, const unsigned int superPerMille = 1000);
+    Category createCategory(const std::string name);
 
 private:
     Category treeRootNode;

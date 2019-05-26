@@ -1,19 +1,28 @@
 #include "../include/category.hpp"
 #include "../include/piggybank.hpp"
 #include <iostream>
+#include "../include/sqlite_modern_cpp.h"
 
-Category::Category(std::string name): name{name}, perMill{1000}, subcategories{}, piggybanks{} {}
+Category::Category(std::string name): name{name}, perMille{1000}, subcategories{}, piggybanks{} {}
+
+void Category::setRowid(const int newRowid) {
+    rowid = newRowid;
+}
+
+const int Category::getRowid() const {
+    return rowid;
+}
 
 const std::string Category::getName() const {
     return name;
 }
 
-void Category::setPerMill(const unsigned int myPerMill) {
-    perMill = myPerMill;
+void Category::setPerMille(const unsigned int myPerMille) {
+    perMille = myPerMille;
 }
 
-const unsigned int Category::getPerMill() const {
-    return perMill;
+const unsigned int Category::getPerMille() const {
+    return perMille;
 }
 
 void Category::addSubcategory(const Category& category) {

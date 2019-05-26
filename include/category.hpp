@@ -9,16 +9,19 @@ class Category
         Category(std::string name);
 
         const std::string getName() const;
-        void setPerMill(const unsigned int perMill);
-        const unsigned int getPerMill() const;
+        void setRowid(const int newRowid);
+        const int getRowid() const;
+        void setPerMille(const unsigned int perMille);
+        const unsigned int getPerMille() const;
         void addSubcategory(const Category&);
         std::vector<Category>& getSubcategories();
         void addPiggybank(const Piggybank&);
         std::vector<Piggybank>& getPiggybanks();
 
     private:
+        int rowid;
         std::string name;
-        unsigned int perMill;
+        int perMille;
         std::vector<Category> subcategories;
         std::vector<Piggybank> piggybanks;
 };

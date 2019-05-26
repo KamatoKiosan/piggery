@@ -1,18 +1,18 @@
 #include "../include/piggybank.hpp"
 
-Piggybank::Piggybank(const std::string name): name{name}, perMill{1000}, balanceInCents{0}, goalInCents{0}, remark{} {}
+Piggybank::Piggybank(const std::string name): name{name}, perMille{1000}, balanceInCents{0}, goalInCents{0}, remark{} {}
 Piggybank::Piggybank(): Piggybank("") {}
 
 const std::string Piggybank::getName() const {
     return name;
 }
 
-void Piggybank::setPerMill(const unsigned int myPerMill) {
-    perMill = myPerMill;
+void Piggybank::setPerMille(const unsigned int myPerMille) {
+    perMille = myPerMille;
 }
 
-const unsigned int Piggybank::getPerMill() const {
-    return perMill;
+const unsigned int Piggybank::getPerMille() const {
+    return perMille;
 }
 
 const int Piggybank::getBalanceInCents() const {
