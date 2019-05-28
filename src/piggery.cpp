@@ -4,13 +4,14 @@
 #include <vector>
 #include "../include/piggery.hpp"
 #include "../include/category.hpp"
+#include "../include/piggybank.hpp"
 
 namespace piggery {
 
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery(const std::string& sqlite3Filepath): treeRootNode{Category{"Root"}}, db{sqlite3Filepath} {
+Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{Category{db, "Root"}} {
     db <<
         "CREATE TABLE IF NOT EXISTS category ("
         "rowid INTEGER PRIMARY KEY, "
@@ -98,26 +99,18 @@ unsigned int Piggery::calculatePerMilleSum(Category& category, const unsigned in
     return perMille;
 }
 
-Category Piggery::createCategory(const std::string name) {
-    Category category{name};
-    db << "INSERT INTO category (name, perMille) VALUES (?,?);"
-        << name
-        << category.getPerMille();
-    category.setRowid(db.last_insert_rowid());
-
-    return category;
-}
-
 }
 
 TEST_CASE("test") {
-    piggery::Piggery piggery{":MEMORY:"};
+    sqlite::database db{":MEMORY:"};
+    piggery::Piggery piggery{db};
     CHECK(piggery.toString() == "Test");
 //    CHECK(piggery.toString() == "Test1");
 }
 
 TEST_CASE("instantiate") {
-    piggery::Piggery piggery{":MEMORY:"};
+    sqlite::database db{":MEMORY:"};
+    piggery::Piggery piggery{db};
 
     SUBCASE("no categories") {
         CHECK(piggery.getTreeRootNode().getName() == "Root");

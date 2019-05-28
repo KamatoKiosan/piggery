@@ -10,7 +10,7 @@ namespace piggery {
 class Piggery {
 
 public:
-	Piggery(const std::string& sqlite3Filepath);
+	Piggery(sqlite::database& db);
     ~Piggery();
 
 	const std::string toString();
@@ -18,10 +18,9 @@ public:
     Category& getTreeRootNode();
     void distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMille = 1000);
     unsigned int calculatePerMilleSum(Category& category, const unsigned int superPerMille = 1000);
-    Category createCategory(const std::string name);
 
 private:
+    sqlite::database& db;
     Category treeRootNode;
-    sqlite::database db;
 };
 }

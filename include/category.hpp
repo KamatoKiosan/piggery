@@ -2,11 +2,12 @@
 #include <vector>
 #include <string>
 #include "piggybank.hpp"
+#include "sqlite_modern_cpp.h"
 
 class Category
 {
     public:
-        Category(std::string name);
+        Category(sqlite::database& db, std::string name);
 
         const std::string getName() const;
         void setRowid(const int newRowid);
@@ -19,6 +20,7 @@ class Category
         std::vector<Piggybank>& getPiggybanks();
 
     private:
+        sqlite::database& db;
         int rowid;
         std::string name;
         int perMille;

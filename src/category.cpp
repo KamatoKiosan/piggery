@@ -3,7 +3,7 @@
 #include <iostream>
 #include "../include/sqlite_modern_cpp.h"
 
-Category::Category(std::string name): name{name}, perMille{1000}, subcategories{}, piggybanks{} {}
+Category::Category(sqlite::database& db, std::string name): db{db}, name{name}, perMille{1000}, subcategories{}, piggybanks{} {}
 
 void Category::setRowid(const int newRowid) {
     rowid = newRowid;

@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "sqlite_modern_cpp.h"
 
 class Piggybank
 {
     public:
-        Piggybank(const std::string name);
-        Piggybank();
+        Piggybank(sqlite::database& db, const std::string name);
+        //Piggybank();
 
         const std::string getName() const;
         void setPerMille(const unsigned int perMille);
@@ -16,6 +17,7 @@ class Piggybank
         const std::string getRemark() const;
 
     private:
+        sqlite::database& db;
         std::string name;
         unsigned int perMille;
         int balanceInCents;
