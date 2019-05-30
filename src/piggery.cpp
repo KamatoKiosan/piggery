@@ -120,14 +120,7 @@ void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
     outfile << "nodeCategory1[label = \"<f0> Category 1 | Input | 100%\"];" << endl;
 }
 
-void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
-    /*
-    node1[label = "<f0> 1"];
-    node2[label = "<f0> 2 | name2 | test2"];
-    node3[label = "<f0> 3 | name3 | test3"];
-    "node1":f0 -> "node2":f0
-    "node1":f0 -> "node3":f0
-    */
+void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, const unsigned int superPerMille) {
     for (Category& subcategory : category.getSubcategories()) {
         outfile << "nodeCategory" << subcategory.getRowId();
         outfile << "[label = \"";
@@ -135,7 +128,9 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
         outfile << " | ";
         outfile << "Name: " << subcategory.getName();
         outfile << " | ";
-        outfile << "Share: " << subcategory.getPerMille() / 10 << '%';
+        outfile << "Share: " << subcategory.getPerMille() / 10.0 << '%';
+        outfile << " | ";
+        outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 10000.0 << '%';
         outfile << "\"];";
         outfile << endl;
         outfile << "\"nodeCategory" << category.getRowId();
@@ -148,13 +143,15 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
             outfile << " | ";
             outfile << "Name: " << piggybank.getName();
             outfile << " | ";
-            outfile << "Share: " << piggybank.getPerMille() / 10 << '%';
+            outfile << "Share: " << piggybank.getPerMille() / 10.0 << '%';
+            outfile << " | ";
+            outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 1000.0 * piggybank.getPerMille() / 10000.0 << '%';
             outfile << "\"];";
             outfile << endl;
             outfile << "\"nodeCategory" << subcategory.getRowId();
             outfile << "\":f0 -> \"nodePiggybank" << piggybank.getRowId() << "\":f0" << endl;
         }
-        createPictureOfTreeBody(outfile, subcategory);
+        createPictureOfTreeBody(outfile, subcategory, superPerMille * subcategory.getPerMille() / 1000);
     }
 }
 

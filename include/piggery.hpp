@@ -25,7 +25,7 @@ private:
     sqlite::database db;
     Category treeRootNode;
     void createPictureOfTreeHeader(std::ofstream& outfile);
-    void createPictureOfTreeBody(std::ofstream& outfile, Category& category);
+    void createPictureOfTreeBody(std::ofstream& outfile, Category& category, const unsigned int superPerMille = 1000);
     void createPictureOfTreeFooter(std::ofstream& outfile);
 };
 }
