@@ -106,7 +106,7 @@ void Piggery::createPictureOfTree(Category& category) {
     createPictureOfTreeFooter(outfile);
     outfile.close();
     // TODO: DRY
-    system("dot -Tpng graph.dot -o out.png");
+    system("dot -Tpdf graph.dot -o out.pdf");
 }
 
 void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
@@ -146,6 +146,12 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << "Share: " << piggybank.getPerMille() / 10.0 << '%';
             outfile << " | ";
             outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 1000.0 * piggybank.getPerMille() / 10000.0 << '%';
+            outfile << " | ";
+            outfile << "Balance: " << piggybank.getBalanceInCents() / 10.0 << "€";
+            outfile << " | ";
+            outfile << "Goal: " << piggybank.getGoalInCents() / 10.0 << "€";
+            outfile << " | ";
+            outfile << "Remark: " << piggybank.getRemark();
             outfile << "\"];";
             outfile << endl;
             outfile << "\"nodeCategory" << subcategory.getRowId();
