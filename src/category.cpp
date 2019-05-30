@@ -17,6 +17,9 @@ const int Category::getRowId() const {
 }
 
 void Category::setName(const std::string newName) {
+    db << "UPDATE category SET name = ? WHERE rowid = ?;"
+       << newName
+       << rowId;
     name = newName;
 }
 
@@ -25,9 +28,9 @@ const std::string Category::getName() const {
 }
 
 void Category::setPerMille(const unsigned int newPerMille) {
-    db << "UPDATE category SET perMille = ? WHERE rowid = ?;"
-       << newPerMille
-       << rowId;
+db << "UPDATE category SET perMille = ? WHERE rowid = ?;"
+   << newPerMille
+   << rowId;
     perMille = newPerMille;
 }
 
@@ -40,6 +43,19 @@ void Category::addSubcategory(const Category& category) {
        << rowId
        << category.getRowId();
     subcategories.push_back(category);
+}
+
+void Category::removeSubcategory(const Category& category) {
+    db << "UPDATE category SET parentCategoryId = 0 WHERE rowid = ?;"
+       << category.getRowId();
+    int index = 0;
+    for(auto const& subcategory: subcategories) {
+        if (subcategory.getRowId() == category.getRowId()) {
+            break;
+        }
+        ++index; 
+    }
+    subcategories.erase(subcategories.begin() + index);
 }
 
 std::vector<Category>& Category::getSubcategories() {
@@ -65,6 +81,19 @@ std::ostream& operator<<(std::ostream& os, const Category &category) {
     os << "name<" << category.name << '>';
     os << ' ';
     os << "perMille<" << category.perMille << '>';
+    os << ' ';
+    os << "subcategories<";
+    for(auto const& subcategory: category.subcategories) {
+        os << subcategory.getRowId();
+        os << ' ';
+    }
+    os << ' ';
+    os << "piggybanks<";
+    for(auto const& piggybank: category.piggybanks) {
+        os << piggybank.getRowId();
+        os << ' ';
+    }
+    os << '>';
     os << ')';
     return os;
 }

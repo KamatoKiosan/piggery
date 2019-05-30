@@ -11,27 +11,55 @@ const int Piggybank::getRowId() const {
     return rowId;
 }
 
+void Piggybank::setName(const std::string newName) {
+    db << "UPDATE piggybank SET name = ? WHERE rowid = ?;"
+       << newName
+       << rowId;
+    name = newName;
+}
+
 const std::string Piggybank::getName() const {
     return name;
 }
 
-void Piggybank::setPerMille(const unsigned int newPerMille) {
-    perMille = newPerMille;
+void Piggybank::setPerMille(const int newPerMille) {
     db << "UPDATE piggybank SET perMille = ? WHERE rowid = ?;"
        << newPerMille
        << rowId;
+    perMille = newPerMille;
 }
 
-const unsigned int Piggybank::getPerMille() const {
+const int Piggybank::getPerMille() const {
     return perMille;
+}
+
+void Piggybank::setBalanceInCents(const int newBalanceInCents) {
+    db << "UPDATE piggybank SET balanceInCents = ? WHERE rowid = ?;"
+       << newBalanceInCents
+       << rowId;
+    balanceInCents = newBalanceInCents;
 }
 
 const int Piggybank::getBalanceInCents() const {
     return balanceInCents;
 }
 
+void Piggybank::setGoalInCents(const int newGoalInCents) {
+    db << "UPDATE piggybank SET goalInCents = ? WHERE rowid = ?;"
+       << newGoalInCents
+       << rowId;
+    goalInCents = newGoalInCents;
+}
+
 const int Piggybank::getGoalInCents() const {
     return goalInCents;
+}
+
+void Piggybank::setRemark(const std::string newRemark) {
+    db << "UPDATE piggybank SET remark = ? WHERE rowid = ?;"
+       << newRemark
+       << rowId;
+    remark = newRemark;
 }
 
 const std::string Piggybank::getRemark() const {

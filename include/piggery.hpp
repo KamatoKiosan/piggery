@@ -20,7 +20,7 @@ public:
     unsigned int calculatePerMilleSum(Category& category, const unsigned int superPerMille = 1000);
 
 private:
-    sqlite::database& db;
+    sqlite::database db;
     Category treeRootNode;
 };
 }
