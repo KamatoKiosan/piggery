@@ -3,22 +3,32 @@
 #include <iostream>
 #include "../include/sqlite_modern_cpp.h"
 
-Category::Category(sqlite::database& db, std::string name): db{db}, name{name}, perMille{1000}, subcategories{}, piggybanks{} {}
-
-void Category::setRowid(const int newRowid) {
-    rowid = newRowid;
+Category::Category(sqlite::database& db, std::string name): db{db}, name{name}, perMille{1000}, subcategories{}, piggybanks{} {
+    db << "INSERT INTO category (name, perMille) VALUES (?,?);"
+       << name
+       << perMille;
+    rowId = db.last_insert_rowid();
 }
 
-const int Category::getRowid() const {
-    return rowid;
+Category::Category(sqlite::database& db): db{db}, rowId{1} {}
+
+const int Category::getRowId() const {
+    return rowId;
+}
+
+void Category::setName(const std::string newName) {
+    name = newName;
 }
 
 const std::string Category::getName() const {
     return name;
 }
 
-void Category::setPerMille(const unsigned int myPerMille) {
-    perMille = myPerMille;
+void Category::setPerMille(const unsigned int newPerMille) {
+    db << "UPDATE category SET perMille = ? WHERE rowid = ?;"
+       << newPerMille
+       << rowId;
+    perMille = newPerMille;
 }
 
 const unsigned int Category::getPerMille() const {
@@ -26,6 +36,9 @@ const unsigned int Category::getPerMille() const {
 }
 
 void Category::addSubcategory(const Category& category) {
+    db << "UPDATE category SET parentCategoryId = ? WHERE rowid = ?;"
+       << rowId
+       << category.getRowId();
     subcategories.push_back(category);
 }
 
@@ -34,9 +47,24 @@ std::vector<Category>& Category::getSubcategories() {
 }
 
 void Category::addPiggybank(const Piggybank& piggybank) {
+    db << "UPDATE piggybank SET categoryId = ? WHERE rowid = ?;"
+       << rowId
+       << piggybank.getRowId();
     piggybanks.push_back(piggybank);
 }
 
 std::vector<Piggybank>& Category::getPiggybanks() {
     return piggybanks;
+}
+
+std::ostream& operator<<(std::ostream& os, const Category &category) {
+    os << "category";
+    os << '(';
+    os << "rowId<" << category.rowId << '>';
+    os << ' ';
+    os << "name<" << category.name << '>';
+    os << ' ';
+    os << "perMille<" << category.perMille << '>';
+    os << ')';
+    return os;
 }

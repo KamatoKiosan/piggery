@@ -7,8 +7,8 @@ class Piggybank
 {
     public:
         Piggybank(sqlite::database& db, const std::string name);
-        //Piggybank();
 
+        const int getRowId() const;
         const std::string getName() const;
         void setPerMille(const unsigned int perMille);
         const unsigned int getPerMille() const;
@@ -18,6 +18,7 @@ class Piggybank
 
     private:
         sqlite::database& db;
+        int rowId;
         std::string name;
         unsigned int perMille;
         int balanceInCents;

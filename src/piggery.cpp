@@ -11,27 +11,45 @@ namespace piggery {
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{Category{db, "Root"}} {
+Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{Category{db}} {
     db <<
         "CREATE TABLE IF NOT EXISTS category ("
         "rowid INTEGER PRIMARY KEY, "
         "name TEXT NOT NULL, "
-        "perMille INTEGER NOT NULL, "
-        "parentCategoryId INTEGER"
+        "perMille INTEGER DEFAULT 0, "
+        "parentCategoryId INTEGER DEFAULT 0"
         ");";
     db <<
         "CREATE TABLE IF NOT EXISTS piggybank ("
         "rowid INTEGER PRIMARY KEY, "
         "name TEXT NOT NULL, "
-        "perMille INTEGER NOT NULL, "
-        "balanceInCents INTEGER NOT NULL, "
-        "goalInCents INTEGER, "
-        "remark TEXT NOT NULL, "
-        "categoryId INTEGER"
+        "perMille INTEGER DEFAULT 0, "
+        "balanceInCents INTEGER DEFAULT 0, "
+        "goalInCents INTEGER DEFAULT 0, "
+        "remark TEXT DEFAULT '', "
+        "categoryId INTEGER DEFAULT 0"
         ");";
     db <<
         "CREATE INDEX IF NOT EXISTS idx_piggybank_categoryId"
         " ON piggybank (categoryId);";
+    int count = 0;
+    db <<
+        "SELECT COUNT(*) FROM category WHERE rowid = 1;" >> count;
+    if (count == 0) {
+        db <<
+            "INSERT INTO category (name, perMille, parentCategoryId) "
+            "VALUES (?, ?, ?);"
+            << "Root"
+            << 1000
+            << NULL;
+    }
+    db <<
+        "SELECT name, perMille FROM category WHERE rowid = 1;"
+        >> [&](std::string name, int perMille) {
+            treeRootNode.setName(name);
+            treeRootNode.setPerMille(perMille);
+            std::cout << treeRootNode << std::endl;
+        };
 };
 
 Piggery::~Piggery() {
