@@ -98,13 +98,15 @@ void Piggery::distributeMoney(Category& category, const unsigned int cents, cons
 }
 
 void Piggery::createPictureOfTree(Category& category) {
+    const string outfileName{"graph.dot"};
     ofstream outfile;
-    outfile.open("test.dot");
+    outfile.open(outfileName);
     createPictureOfTreeHeader(outfile);
     createPictureOfTreeBody(outfile, category);
     createPictureOfTreeFooter(outfile);
     outfile.close();
-    system("dot -Tpng test.dot -o out.png");
+    // TODO: DRY
+    system("dot -Tpng graph.dot -o out.png");
 }
 
 void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
@@ -115,6 +117,7 @@ void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
     outfile << "node [" << endl;
     outfile << "shape = \"record\"" << endl;
     outfile << "];" << endl;
+    outfile << "nodeCategory1[label = \"<f0> Category 1 | Input | 100%\"];" << endl;
 }
 
 void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
@@ -130,9 +133,9 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
         outfile << "[label = \"";
         outfile << "<f0> Category ID " << subcategory.getRowId();
         outfile << " | ";
-        outfile << subcategory.getName();
+        outfile << "Name: " << subcategory.getName();
         outfile << " | ";
-        outfile << subcategory.getPerMille();
+        outfile << "Share: " << subcategory.getPerMille() / 10 << '%';
         outfile << "\"];";
         outfile << endl;
         outfile << "\"nodeCategory" << category.getRowId();
@@ -143,9 +146,9 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
             outfile << "[label = \"";
             outfile << "<f0> Piggybank ID " << piggybank.getRowId();
             outfile << " | ";
-            outfile << piggybank.getName();
+            outfile << "Name: " << piggybank.getName();
             outfile << " | ";
-            outfile << piggybank.getPerMille();
+            outfile << "Share: " << piggybank.getPerMille() / 10 << '%';
             outfile << "\"];";
             outfile << endl;
             outfile << "\"nodeCategory" << subcategory.getRowId();
