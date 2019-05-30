@@ -1,4 +1,5 @@
 #include "../include/doctest.h"
+#include <fstream>
 #include <iostream>
 #include "../include/nlohmann/json.hpp"
 #include <vector>
@@ -94,6 +95,68 @@ void Piggery::distributeMoney(Category& category, const unsigned int cents, cons
         }
         distributeMoney(subcategory, cents, superPerMille * subcategory.getPerMille() / 1000);
     }
+}
+
+void Piggery::createPictureOfTree(Category& category) {
+    ofstream outfile;
+    outfile.open("test.dot");
+    createPictureOfTreeHeader(outfile);
+    createPictureOfTreeBody(outfile, category);
+    createPictureOfTreeFooter(outfile);
+    outfile.close();
+    system("dot -Tpng test.dot -o out.png");
+}
+
+void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
+    outfile << "digraph g {" << endl;
+    outfile << "graph [" << endl;
+    outfile << "rankdir = \"LR\"" << endl;
+    outfile << "];" << endl;
+    outfile << "node [" << endl;
+    outfile << "shape = \"record\"" << endl;
+    outfile << "];" << endl;
+}
+
+void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category) {
+    /*
+    node1[label = "<f0> 1"];
+    node2[label = "<f0> 2 | name2 | test2"];
+    node3[label = "<f0> 3 | name3 | test3"];
+    "node1":f0 -> "node2":f0
+    "node1":f0 -> "node3":f0
+    */
+    for (Category& subcategory : category.getSubcategories()) {
+        outfile << "nodeCategory" << subcategory.getRowId();
+        outfile << "[label = \"";
+        outfile << "<f0> Category ID " << subcategory.getRowId();
+        outfile << " | ";
+        outfile << subcategory.getName();
+        outfile << " | ";
+        outfile << subcategory.getPerMille();
+        outfile << "\"];";
+        outfile << endl;
+        outfile << "\"nodeCategory" << category.getRowId();
+        outfile << "\":f0 -> \"nodeCategory" << subcategory.getRowId() << "\":f0" << endl;
+
+        for (Piggybank& piggybank : subcategory.getPiggybanks()) {
+            outfile << "nodePiggybank" << piggybank.getRowId();
+            outfile << "[label = \"";
+            outfile << "<f0> Piggybank ID " << piggybank.getRowId();
+            outfile << " | ";
+            outfile << piggybank.getName();
+            outfile << " | ";
+            outfile << piggybank.getPerMille();
+            outfile << "\"];";
+            outfile << endl;
+            outfile << "\"nodeCategory" << subcategory.getRowId();
+            outfile << "\":f0 -> \"nodePiggybank" << piggybank.getRowId() << "\":f0" << endl;
+        }
+        createPictureOfTreeBody(outfile, subcategory);
+    }
+}
+
+void Piggery::createPictureOfTreeFooter(ofstream& outfile) {
+    outfile << "}" << endl;
 }
 
 unsigned int Piggery::calculatePerMilleSum(Category& category, const unsigned int superPerMille) {

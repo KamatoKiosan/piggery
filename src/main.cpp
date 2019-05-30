@@ -64,6 +64,7 @@ int main()
     unsigned int perMilleSum = piggery.calculatePerMilleSum(treeRootNode);
     cout << "perMilleSum: " << perMilleSum << endl << endl;
     piggery.distributeMoney(treeRootNode, 100*100);
+    piggery.createPictureOfTree(treeRootNode);
 
     return 0;
 }
