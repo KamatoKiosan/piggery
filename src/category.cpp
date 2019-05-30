@@ -12,6 +12,34 @@ Category::Category(sqlite::database& db, std::string name): db{db}, name{name}, 
 
 Category::Category(sqlite::database& db): db{db}, rowId{1} {}
 
+Category::Category(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {
+    init();
+}
+
+void Category::init() {
+    db <<
+        "SELECT name, perMille FROM category WHERE rowid = ?;"
+        << rowId
+        >> [&](std::string newName, int newPerMille) {
+            name = newName;
+            perMille = newPerMille;
+        };
+    db <<
+        "SELECT rowid FROM category WHERE parentCategoryId = ?;"
+        << rowId
+        >> [&](int rowid) {
+            Category category{db, rowid};
+            subcategories.push_back(category);
+        };
+    db <<
+        "SELECT rowid FROM piggybank WHERE categoryId = ?;"
+        << rowId
+        >> [&](int rowid) {
+            Piggybank piggybank{db, rowid};
+            piggybanks.push_back(piggybank);
+        };
+}
+
 const int Category::getRowId() const {
     return rowId;
 }
@@ -87,6 +115,7 @@ std::ostream& operator<<(std::ostream& os, const Category &category) {
         os << subcategory.getRowId();
         os << ' ';
     }
+    os << '>';
     os << ' ';
     os << "piggybanks<";
     for(auto const& piggybank: category.piggybanks) {

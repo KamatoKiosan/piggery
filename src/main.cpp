@@ -11,7 +11,6 @@ int main()
 {
     sqlite::database db{"database.db"};
     piggery::Piggery piggery{db};
-    std::cout << piggery.toString() << std::endl;
     //piggery.testJson();
 
     Category treeRootNode = piggery.getTreeRootNode();
@@ -22,6 +21,7 @@ int main()
     //piggery.distributeMoney(treeRootNode, 100*100);
 
     piggery.createPictureOfTree(treeRootNode);
+    //cout << treeRootNode << endl;
 
     return 0;
 }

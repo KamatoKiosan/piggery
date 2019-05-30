@@ -12,7 +12,7 @@ namespace piggery {
 using namespace std;
 using json = nlohmann::json;
 
-Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{Category{db}} {
+Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
     db <<
         "CREATE TABLE IF NOT EXISTS category ("
         "rowid INTEGER PRIMARY KEY, "
@@ -44,21 +44,11 @@ Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{Category{db}} {
             << 1000
             << NULL;
     }
-    db <<
-        "SELECT name, perMille FROM category WHERE rowid = 1;"
-        >> [&](std::string name, int perMille) {
-            treeRootNode.setName(name);
-            treeRootNode.setPerMille(perMille);
-            std::cout << treeRootNode << std::endl;
-        };
+    treeRootNode.init();
+    cout << "treeRootNode " << treeRootNode << endl;
 };
 
 Piggery::~Piggery() {
-}
-
-const string Piggery::toString()
-{
-	return "Test";
 }
 
 void Piggery::testJson()
@@ -147,9 +137,9 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << " | ";
             outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 1000.0 * piggybank.getPerMille() / 10000.0 << '%';
             outfile << " | ";
-            outfile << "Balance: " << piggybank.getBalanceInCents() / 10.0 << "€";
+            outfile << "Balance: " << piggybank.getBalanceInCents() / 10.0 << " €";
             outfile << " | ";
-            outfile << "Goal: " << piggybank.getGoalInCents() / 10.0 << "€";
+            outfile << "Goal: " << piggybank.getGoalInCents() / 10.0 << " €";
             outfile << " | ";
             outfile << "Remark: " << piggybank.getRemark();
             outfile << "\"];";
@@ -191,7 +181,7 @@ unsigned int Piggery::calculatePerMilleSum(Category& category, const unsigned in
 TEST_CASE("test") {
     sqlite::database db{":MEMORY:"};
     piggery::Piggery piggery{db};
-    CHECK(piggery.toString() == "Test");
+//    CHECK(piggery.toString() == "Test");
 //    CHECK(piggery.toString() == "Test1");
 }
 

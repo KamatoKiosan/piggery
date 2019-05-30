@@ -7,6 +7,7 @@ class Piggybank
 {
     public:
         Piggybank(sqlite::database& db, const std::string name);
+        Piggybank(sqlite::database& db, const int rowId);
 
         const int getRowId() const;
         void setName(const std::string name);

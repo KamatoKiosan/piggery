@@ -9,7 +9,9 @@ class Category
     public:
         Category(sqlite::database& db, std::string name);
         Category(sqlite::database& db);
+        Category(sqlite::database& db, const int rowId);
 
+        void init();
         const int getRowId() const;
         void setName(const std::string name);
         const std::string getName() const;

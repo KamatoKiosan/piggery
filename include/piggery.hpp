@@ -14,7 +14,6 @@ public:
 	Piggery(sqlite::database& db);
     ~Piggery();
 
-	const std::string toString();
     void testJson(void);
     Category& getTreeRootNode();
     void distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMille = 1000);

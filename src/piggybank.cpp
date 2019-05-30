@@ -7,6 +7,19 @@ Piggybank::Piggybank(sqlite::database& db, const std::string name): db{db}, name
     rowId = db.last_insert_rowid();
 }
   
+Piggybank::Piggybank(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {
+    db <<
+        "SELECT name, perMille, balanceInCents, goalInCents, remark  FROM piggybank WHERE rowid = ?;"
+        << rowId
+        >> [&](std::string newName, int newPerMille, int newBalanceInCents, int newGoalInCents, std::string newRemark) {
+            name = newName;
+            perMille = newPerMille;
+            balanceInCents = newBalanceInCents;
+            goalInCents = newGoalInCents;
+            remark = newRemark;
+        };
+}
+
 const int Piggybank::getRowId() const {
     return rowId;
 }
