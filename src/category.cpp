@@ -111,16 +111,20 @@ std::ostream& operator<<(std::ostream& os, const Category &category) {
     os << "perMille<" << category.perMille << '>';
     os << ' ';
     os << "subcategories<";
+    bool first = true;
     for(auto const& subcategory: category.subcategories) {
+        if (!first) os << ", ";
         os << subcategory.getRowId();
-        os << ' ';
+        first = false;
     }
     os << '>';
     os << ' ';
     os << "piggybanks<";
+    first = true;
     for(auto const& piggybank: category.piggybanks) {
+        if (!first) os << ", ";
         os << piggybank.getRowId();
-        os << ' ';
+        first = false;
     }
     os << '>';
     os << ')';
