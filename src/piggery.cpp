@@ -82,6 +82,7 @@ void Piggery::distributeMoney(Category& category, const unsigned int cents, cons
             cout << "Piggybank perMille accumulated: " << superPerMille * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << endl;
             // cout << "cents: " << cents << " superPerMille: " << superPerMille << " subcategory.getPerMille: " << subcategory.getPerMille() << " piggybank.getPerMille: " << piggybank.getPerMille() << endl;
             cout << "This piggybank gets " << cents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << " cents" << endl;
+            piggybank.addBalanceInCents(cents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000);
         }
         distributeMoney(subcategory, cents, superPerMille * subcategory.getPerMille() / 1000);
     }

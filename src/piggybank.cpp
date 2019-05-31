@@ -53,6 +53,13 @@ void Piggybank::setBalanceInCents(const int newBalanceInCents) {
     balanceInCents = newBalanceInCents;
 }
 
+void Piggybank::addBalanceInCents(const int newBalanceInCents) {
+    db << "UPDATE piggybank SET balanceInCents = ? WHERE rowid = ?;"
+       << balanceInCents + newBalanceInCents
+       << rowId;
+    balanceInCents += newBalanceInCents;
+}
+
 const int Piggybank::getBalanceInCents() const {
     return balanceInCents;
 }

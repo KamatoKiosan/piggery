@@ -15,6 +15,7 @@ class Piggybank
         void setPerMille(const int perMille);
         const int getPerMille() const;
         void setBalanceInCents(const int balanceInCents);
+        void addBalanceInCents(const int balanceInCents);
         const int getBalanceInCents() const;
         void setGoalInCents(const int goalInCents);
         const int getGoalInCents() const;

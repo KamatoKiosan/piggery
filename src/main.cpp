@@ -7,18 +7,7 @@
 
 using namespace std;
 
-int main() 
-{
-    sqlite::database db{"database.db"};
-    piggery::Piggery piggery{db};
-
-    /*
-    piggery.testJson();
-    */
-
-    Category treeRootNode = piggery.getTreeRootNode();
-
-    /*
+void createTestData(sqlite::database& db, Category& treeRootNode) {
     Category category1{db, "Category1"};
     category1.setPerMille(500);
     Category category11{db, "Category11"};
@@ -62,12 +51,26 @@ int main()
     category22.addPiggybank(piggybank222);
     category2.addSubcategory(category22);
     treeRootNode.addSubcategory(category2);
-    */
+}
+
+int main() 
+{
+    sqlite::database db{"database.db"};
+    piggery::Piggery piggery{db};
 
     /*
+    piggery.testJson();
+    */
+
+    Category treeRootNode = piggery.getTreeRootNode();
+
+    /*
+    createTestData(db, treeRootNode);
+    */
+
     unsigned int perMilleSum = piggery.calculatePerMilleSum(treeRootNode);
     cout << "perMilleSum: " << perMilleSum << endl << endl;
-    */
+
     /*
     piggery.distributeMoney(treeRootNode, 100*100);
     */
