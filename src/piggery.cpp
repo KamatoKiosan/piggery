@@ -13,6 +13,7 @@ using namespace std;
 using json = nlohmann::json;
 
 Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
+    db << "PRAGMA journal_mode=WAL;";
     db <<
         "CREATE TABLE IF NOT EXISTS category ("
         "rowid INTEGER PRIMARY KEY, "
@@ -69,7 +70,7 @@ Category& Piggery::getTreeRootNode() {
 }
 
 
-void Piggery::distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMille) {
+void Piggery::distributeAmountInCents(Category& category, const int amountInCents, const unsigned int superPerMille) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
         cout << "Category name: " << subcategory.getName() << endl;
@@ -81,10 +82,10 @@ void Piggery::distributeMoney(Category& category, const unsigned int cents, cons
             cout << "Piggybank perMille: " << piggybank.getPerMille() << endl;
             cout << "Piggybank perMille accumulated: " << superPerMille * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << endl;
             // cout << "cents: " << cents << " superPerMille: " << superPerMille << " subcategory.getPerMille: " << subcategory.getPerMille() << " piggybank.getPerMille: " << piggybank.getPerMille() << endl;
-            cout << "This piggybank gets " << cents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << " cents" << endl;
-            piggybank.addBalanceInCents(cents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000);
+            cout << "This piggybank gets " << amountInCents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << " cents" << endl;
+            piggybank.addBalanceInCents(amountInCents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000);
         }
-        distributeMoney(subcategory, cents, superPerMille * subcategory.getPerMille() / 1000);
+        distributeAmountInCents(subcategory, amountInCents, superPerMille * subcategory.getPerMille() / 1000);
     }
 }
 
@@ -93,6 +94,7 @@ void Piggery::createPictureOfTree(Category& category) {
     ofstream outfile;
     outfile.open(outfileName);
     createPictureOfTreeHeader(outfile);
+    outfile << fixed;
     createPictureOfTreeBody(outfile, category);
     createPictureOfTreeFooter(outfile);
     outfile.close();
@@ -119,8 +121,10 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
         outfile << " | ";
         outfile << "Name: " << subcategory.getName();
         outfile << " | ";
+        outfile.precision(1);
         outfile << "Share: " << subcategory.getPerMille() / 10.0 << '%';
         outfile << " | ";
+        outfile.precision(1);
         outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 10000.0 << '%';
         outfile << "\"];";
         outfile << endl;
@@ -134,17 +138,30 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << " | ";
             outfile << "Name: " << piggybank.getName();
             outfile << " | ";
+            outfile.precision(1);
             outfile << "Share: " << piggybank.getPerMille() / 10.0 << '%';
             outfile << " | ";
+            outfile.precision(1);
             outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 1000.0 * piggybank.getPerMille() / 10000.0 << '%';
             outfile << " | ";
-            outfile << "Balance: " << piggybank.getBalanceInCents() / 10.0 << " €";
+            outfile.precision(2);
+            outfile << "Balance: " << piggybank.getBalanceInCents() / 100.0 << " €";
             outfile << " | ";
-            outfile << "Goal: " << piggybank.getGoalInCents() / 10.0 << " €";
-            outfile << " | ";
-            outfile << "Remark: " << piggybank.getRemark();
+            outfile.precision(2);
+            outfile << "Goal: " << piggybank.getGoalInCents() / 100.0 << " €";
+            //outfile << " | ";
+            //outfile << "Remark: " << piggybank.getRemark();
             outfile << "\"];";
             outfile << endl;
+            if (piggybank.getRemark().size() > 0) {
+                outfile << "nodeRemark" << piggybank.getRowId();
+                outfile << "[label = \"";
+                outfile << "Remark: " << piggybank.getRemark();
+                outfile << "\"];";
+                outfile << endl;
+                outfile << "\"nodePiggybank" << piggybank.getRowId();
+                outfile << "\":f0 -> \"nodeRemark" << piggybank.getRowId() << "\"" << endl;
+            }
             outfile << "\"nodeCategory" << subcategory.getRowId();
             outfile << "\":f0 -> \"nodePiggybank" << piggybank.getRowId() << "\":f0" << endl;
         }

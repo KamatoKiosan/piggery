@@ -16,7 +16,7 @@ public:
 
     void testJson(void);
     Category& getTreeRootNode();
-    void distributeMoney(Category& category, const unsigned int cents, const unsigned int superPerMille = 1000);
+    void distributeAmountInCents(Category& category, const int amountInCents, const unsigned int superPerMille = 1000);
     void createPictureOfTree(Category& category);
     unsigned int calculatePerMilleSum(Category& category, const unsigned int superPerMille = 1000);
 

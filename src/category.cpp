@@ -45,10 +45,10 @@ const int Category::getRowId() const {
 }
 
 void Category::setName(const std::string newName) {
-    db << "UPDATE category SET name = ? WHERE rowid = ?;"
-       << newName
-       << rowId;
     name = newName;
+    db << "UPDATE category SET name = ? WHERE rowid = ?;"
+       << name
+       << rowId;
 }
 
 const std::string Category::getName() const {
@@ -56,10 +56,10 @@ const std::string Category::getName() const {
 }
 
 void Category::setPerMille(const unsigned int newPerMille) {
-db << "UPDATE category SET perMille = ? WHERE rowid = ?;"
-   << newPerMille
-   << rowId;
     perMille = newPerMille;
+    db << "UPDATE category SET perMille = ? WHERE rowid = ?;"
+       << perMille
+       << rowId;
 }
 
 const unsigned int Category::getPerMille() const {

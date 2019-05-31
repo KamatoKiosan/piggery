@@ -71,9 +71,24 @@ int main()
     unsigned int perMilleSum = piggery.calculatePerMilleSum(treeRootNode);
     cout << "perMilleSum: " << perMilleSum << endl << endl;
 
+    // Distribute some money
     /*
-    piggery.distributeMoney(treeRootNode, 100*100);
+    piggery.distributeAmountInCents(treeRootNode, 10000);
     */
+
+    // Setting the remark of an piggybank.
+    /*
+    Piggybank piggybank{db, 1};
+    piggybank.setRemark("Remark of piggybank1");
+    */
+
+    // Retrieve money from a piggybank.
+    /*
+    Piggybank piggybank{db, 1};
+    piggybank.debitAmountInCents(5000);
+    */
+
+
     piggery.createPictureOfTree(treeRootNode);
 
     return 0;
