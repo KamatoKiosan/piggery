@@ -6,6 +6,7 @@
 #include "../include/piggery.hpp"
 #include "../include/category.hpp"
 #include "../include/piggybank.hpp"
+#include <unistd.h>
 
 namespace piggery {
 
@@ -13,7 +14,6 @@ using namespace std;
 using json = nlohmann::json;
 
 Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
-    db << "PRAGMA journal_mode=WAL;";
     db <<
         "CREATE TABLE IF NOT EXISTS category ("
         "rowid INTEGER PRIMARY KEY, "
@@ -34,6 +34,15 @@ Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
     db <<
         "CREATE INDEX IF NOT EXISTS idx_piggybank_categoryId"
         " ON piggybank (categoryId);";
+    db <<
+        "CREATE TABLE IF NOT EXISTS log ("
+        "rowid INTEGER PRIMARY KEY, "
+        "timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, "
+        "action TEXT NOT NULL, "
+        "piggybankId INTEGER NOT NULL, "
+        "piggybankName TEXT NOT NULL, "
+        "amountInCents INTEGER NOT NULL"
+        ");";
     int count = 0;
     db <<
         "SELECT COUNT(*) FROM category WHERE rowid = 1;" >> count;
@@ -69,7 +78,6 @@ Category& Piggery::getTreeRootNode() {
     return treeRootNode;
 }
 
-
 void Piggery::distributeAmountInCents(Category& category, const int amountInCents, const unsigned int superPerMille) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
@@ -83,7 +91,7 @@ void Piggery::distributeAmountInCents(Category& category, const int amountInCent
             cout << "Piggybank perMille accumulated: " << superPerMille * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << endl;
             // cout << "cents: " << cents << " superPerMille: " << superPerMille << " subcategory.getPerMille: " << subcategory.getPerMille() << " piggybank.getPerMille: " << piggybank.getPerMille() << endl;
             cout << "This piggybank gets " << amountInCents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << " cents" << endl;
-            piggybank.addBalanceInCents(amountInCents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000);
+            piggybank.addAmountInCents(amountInCents * superPerMille / 1000 * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000);
         }
         distributeAmountInCents(subcategory, amountInCents, superPerMille * subcategory.getPerMille() / 1000);
     }
@@ -145,7 +153,9 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 1000.0 * piggybank.getPerMille() / 10000.0 << '%';
             outfile << " | ";
             outfile.precision(2);
+            cout << piggybank.getBalanceInCents() << endl;
             outfile << "Balance: " << piggybank.getBalanceInCents() / 100.0 << " €";
+            cout << piggybank.getBalanceInCents() << endl;
             outfile << " | ";
             outfile.precision(2);
             outfile << "Goal: " << piggybank.getGoalInCents() / 100.0 << " €";

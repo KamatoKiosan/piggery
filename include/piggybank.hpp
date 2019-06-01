@@ -11,25 +11,20 @@ class Piggybank
 
         const int getRowId() const;
         void setName(const std::string name);
-        const std::string getName() const;
+        const std::string getName();
         void setPerMille(const int perMille);
-        const int getPerMille() const;
+        const int getPerMille();
         void setBalanceInCents(const int balanceInCents);
-        void addBalanceInCents(const int balanceInCents);
+        void addAmountInCents(const int amountInCents);
         void debitAmountInCents(const int amountInCents);
-        const int getBalanceInCents() const;
+        const int getBalanceInCents();
         void setGoalInCents(const int goalInCents);
-        const int getGoalInCents() const;
+        const int getGoalInCents();
         void setRemark(const std::string remark);
-        const std::string getRemark() const;
+        const std::string getRemark();
 
     private:
         sqlite::database db;
         int rowId;
-        std::string name;
-        int perMille;
-        int balanceInCents;
-        int goalInCents;
-        std::string remark;
 };
 

@@ -55,7 +55,7 @@ void createTestData(sqlite::database& db, Category& treeRootNode) {
 
 int main() 
 {
-    sqlite::database db{"database.db"};
+    sqlite::database db{"piggery.db"};
     piggery::Piggery piggery{db};
 
     /*
@@ -83,11 +83,10 @@ int main()
     */
 
     // Retrieve money from a piggybank.
-    /*
     Piggybank piggybank{db, 1};
-    piggybank.debitAmountInCents(5000);
-    */
-
+    std::cout << piggybank.getBalanceInCents() << endl;
+    piggybank.debitAmountInCents(100);
+    std::cout << piggybank.getBalanceInCents() << endl;
 
     piggery.createPictureOfTree(treeRootNode);
 
