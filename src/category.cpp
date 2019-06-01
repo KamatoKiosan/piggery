@@ -3,10 +3,9 @@
 #include <iostream>
 #include "../include/sqlite_modern_cpp.h"
 
-Category::Category(sqlite::database& db, std::string name): db{db}, name{name}, perMille{1000}, subcategories{}, piggybanks{} {
-    db << "INSERT INTO category (name, perMille) VALUES (?,?);"
-       << name
-       << perMille;
+Category::Category(sqlite::database& db, std::string name): db{db}, subcategories{}, piggybanks{} {
+    db << "INSERT INTO category (name) VALUES (?);"
+       << name;
     rowId = db.last_insert_rowid();
 }
 
@@ -17,13 +16,6 @@ Category::Category(sqlite::database& db, const int rowId): db{db}, rowId{rowId} 
 }
 
 void Category::init() {
-    db <<
-        "SELECT name, perMille FROM category WHERE rowid = ?;"
-        << rowId
-        >> [&](std::string newName, int newPerMille) {
-            name = newName;
-            perMille = newPerMille;
-        };
     db <<
         "SELECT rowid FROM category WHERE parentCategoryId = ?;"
         << rowId
@@ -44,25 +36,31 @@ const int Category::getRowId() const {
     return rowId;
 }
 
-void Category::setName(const std::string newName) {
-    name = newName;
+void Category::setName(const std::string name) {
     db << "UPDATE category SET name = ? WHERE rowid = ?;"
        << name
        << rowId;
 }
 
-const std::string Category::getName() const {
+const std::string Category::getName() {
+    std::string name;
+    db << "SELECT name FROM category WHERE rowid = ?;"
+       << rowId
+       >> name;
     return name;
 }
 
-void Category::setPerMille(const unsigned int newPerMille) {
-    perMille = newPerMille;
+void Category::setPerMille(const unsigned int perMille) {
     db << "UPDATE category SET perMille = ? WHERE rowid = ?;"
        << perMille
        << rowId;
 }
 
-const unsigned int Category::getPerMille() const {
+const unsigned int Category::getPerMille() {
+    int perMille; 
+    db << "SELECT perMille FROM category WHERE rowid = ?;"
+       << rowId
+       >> perMille;
     return perMille;
 }
 
@@ -101,12 +99,13 @@ std::vector<Piggybank>& Category::getPiggybanks() {
     return piggybanks;
 }
 
-std::ostream& operator<<(std::ostream& os, const Category &category) {
+/*
+std::ostream& operator<<(std::ostream& os, const Category& category) {
     os << "category";
     os << '(';
     os << "rowId<" << category.rowId << '>';
     os << ' ';
-    os << "name<" << category.name << '>';
+    os << "name<" << category.getName() << '>';
     os << ' ';
     os << "perMille<" << category.perMille << '>';
     os << ' ';
@@ -130,3 +129,5 @@ std::ostream& operator<<(std::ostream& os, const Category &category) {
     os << ')';
     return os;
 }
+*/
+

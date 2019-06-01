@@ -55,7 +55,7 @@ Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
             << NULL;
     }
     treeRootNode.init();
-    cout << "treeRootNode " << treeRootNode << endl;
+    //cout << "treeRootNode " << treeRootNode << endl;
 };
 
 Piggery::~Piggery() {

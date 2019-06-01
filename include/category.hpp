@@ -14,22 +14,19 @@ class Category
         void init();
         const int getRowId() const;
         void setName(const std::string name);
-        const std::string getName() const;
+        const std::string getName();
         void setPerMille(const unsigned int perMille);
-        const unsigned int getPerMille() const;
+        const unsigned int getPerMille();
         void addSubcategory(const Category&);
         void removeSubcategory(const Category&);
         std::vector<Category>& getSubcategories();
         void addPiggybank(const Piggybank&);
         std::vector<Piggybank>& getPiggybanks();
-        friend std::ostream &operator<<( std::ostream &output, const Category &category);
-        //Category& operator= (const Category &) = default;
+        //friend std::ostream &operator<<( std::ostream &output, const Category &category);
 
     private:
         sqlite::database db;
         int rowId;
-        std::string name;
-        int perMille;
         std::vector<Category> subcategories;
         std::vector<Piggybank> piggybanks;
 };
