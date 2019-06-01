@@ -3,7 +3,7 @@
 #include <iostream>
 #include "../include/sqlite_modern_cpp.h"
 
-Category::Category(sqlite::database& db, std::string name): db{db}, subcategories{}, piggybanks{} {
+Category::Category(sqlite::database& db, std::string name): db{db} {
     db << "INSERT INTO category (name) VALUES (?);"
        << name;
     rowId = db.last_insert_rowid();
@@ -11,26 +11,7 @@ Category::Category(sqlite::database& db, std::string name): db{db}, subcategorie
 
 Category::Category(sqlite::database& db): db{db}, rowId{1} {}
 
-Category::Category(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {
-    init();
-}
-
-void Category::init() {
-    db <<
-        "SELECT rowid FROM category WHERE parentCategoryId = ?;"
-        << rowId
-        >> [&](int rowid) {
-            Category category{db, rowid};
-            subcategories.push_back(category);
-        };
-    db <<
-        "SELECT rowid FROM piggybank WHERE categoryId = ?;"
-        << rowId
-        >> [&](int rowid) {
-            Piggybank piggybank{db, rowid};
-            piggybanks.push_back(piggybank);
-        };
-}
+Category::Category(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {}
 
 const int Category::getRowId() const {
     return rowId;
@@ -68,34 +49,38 @@ void Category::addSubcategory(const Category& category) {
     db << "UPDATE category SET parentCategoryId = ? WHERE rowid = ?;"
        << rowId
        << category.getRowId();
-    subcategories.push_back(category);
 }
 
 void Category::removeSubcategory(const Category& category) {
     db << "UPDATE category SET parentCategoryId = 0 WHERE rowid = ?;"
        << category.getRowId();
-    int index = 0;
-    for(auto const& subcategory: subcategories) {
-        if (subcategory.getRowId() == category.getRowId()) {
-            break;
-        }
-        ++index; 
-    }
-    subcategories.erase(subcategories.begin() + index);
 }
 
-std::vector<Category>& Category::getSubcategories() {
-    return subcategories;
+std::vector<Category> Category::getSubcategories() {
+    std::vector<Category> categories; 
+    db << "SELECT rowid FROM category WHERE parentCategoryId = ?;"
+       << rowId
+       >> [&](int rowId) {
+           Category category{db, rowId};
+           categories.push_back(category);
+       };
+    return categories;
 }
 
 void Category::addPiggybank(const Piggybank& piggybank) {
     db << "UPDATE piggybank SET categoryId = ? WHERE rowid = ?;"
        << rowId
        << piggybank.getRowId();
-    piggybanks.push_back(piggybank);
 }
 
-std::vector<Piggybank>& Category::getPiggybanks() {
+std::vector<Piggybank> Category::getPiggybanks() {
+    std::vector<Piggybank> piggybanks; 
+    db << "SELECT rowid FROM piggybank WHERE categoryId = ?;"
+       << rowId
+       >> [&](int rowId) {
+           Piggybank piggybank{db, rowId};
+           piggybanks.push_back(piggybank);
+       };
     return piggybanks;
 }
 

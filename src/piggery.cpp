@@ -54,7 +54,6 @@ Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
             << 1000
             << NULL;
     }
-    treeRootNode.init();
     //cout << "treeRootNode " << treeRootNode << endl;
 };
 
@@ -153,9 +152,7 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << "Accumulated share: " << superPerMille * subcategory.getPerMille() / 1000.0 * piggybank.getPerMille() / 10000.0 << '%';
             outfile << " | ";
             outfile.precision(2);
-            cout << piggybank.getBalanceInCents() << endl;
             outfile << "Balance: " << piggybank.getBalanceInCents() / 100.0 << " €";
-            cout << piggybank.getBalanceInCents() << endl;
             outfile << " | ";
             outfile.precision(2);
             outfile << "Goal: " << piggybank.getGoalInCents() / 100.0 << " €";

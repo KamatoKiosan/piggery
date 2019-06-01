@@ -83,10 +83,10 @@ int main()
     */
 
     // Retrieve money from a piggybank.
+    /*
     Piggybank piggybank{db, 1};
-    std::cout << piggybank.getBalanceInCents() << endl;
     piggybank.debitAmountInCents(100);
-    std::cout << piggybank.getBalanceInCents() << endl;
+    */
 
     piggery.createPictureOfTree(treeRootNode);
 

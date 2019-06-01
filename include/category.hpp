@@ -19,14 +19,12 @@ class Category
         const unsigned int getPerMille();
         void addSubcategory(const Category&);
         void removeSubcategory(const Category&);
-        std::vector<Category>& getSubcategories();
+        std::vector<Category> getSubcategories();
         void addPiggybank(const Piggybank&);
-        std::vector<Piggybank>& getPiggybanks();
+        std::vector<Piggybank> getPiggybanks();
         //friend std::ostream &operator<<( std::ostream &output, const Category &category);
 
     private:
         sqlite::database db;
         int rowId;
-        std::vector<Category> subcategories;
-        std::vector<Piggybank> piggybanks;
 };
