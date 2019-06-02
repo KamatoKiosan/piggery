@@ -180,25 +180,31 @@ void Piggery::createPictureOfTreeFooter(ofstream& outfile) {
     outfile << "}" << endl;
 }
 
-unsigned int Piggery::calculatePerMilleSum(Category& category, const unsigned int superPerMille) {
+void Piggery::calculatePerMilleSum(Category& category, const int level) const {
+    const static unsigned int SPACES_PER_LEVEL = 2;
+    unsigned int categoriesPerMilleSum = 0;
     unsigned int piggybanksPerMilleSum = 0;
-    unsigned int subPerMille = 0;
-    for (Category& subcategory : category.getSubcategories()) {
-        cout << endl;
-        cout << "Category name: " << subcategory.getName() << endl;
-        cout << "Category perMille: " << subcategory.getPerMille() << endl;
-        cout << "Category perMille accumulated: " << superPerMille * subcategory.getPerMille() / 1000 << endl;
-
-        for (Piggybank& piggybank : subcategory.getPiggybanks()) {
-            cout << "Piggybank name: " << piggybank.getName() << endl;
-            cout << "Piggybank perMille: " << piggybank.getPerMille() << endl;
-            cout << "Piggybank perMille accumulated: " << superPerMille * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000 << endl;
-            piggybanksPerMilleSum += superPerMille * subcategory.getPerMille() / 1000 * piggybank.getPerMille() / 1000; 
+    const unsigned int spaces = level * SPACES_PER_LEVEL;
+    if (!category.getPiggybanks().empty()) {
+        for (Piggybank& piggybank : category.getPiggybanks()) {
+            cout << string(spaces, ' ') << "Piggybank ID: " << piggybank.getRowId() << endl;
+            cout << string(spaces, ' ') << "Piggybank name: " << piggybank.getName() << endl;
+            cout << string(spaces, ' ') << "Piggybank perMille: " << piggybank.getPerMille() << endl;
+            piggybanksPerMilleSum += piggybank.getPerMille(); 
         }
-        subPerMille += calculatePerMilleSum(subcategory, superPerMille * subcategory.getPerMille() / 1000);
+        cout <<  endl << string(spaces, ' ') << "Piggybank perMille sum: " << piggybanksPerMilleSum << endl;
     }
-    unsigned int perMille = piggybanksPerMilleSum + subPerMille;
-    return perMille;
+    if (!category.getSubcategories().empty()) {
+        for (Category& subcategory : category.getSubcategories()) {
+            cout << endl;
+            cout << string(spaces, ' ') << "Category ID: " << subcategory.getRowId() << endl;
+            cout << string(spaces, ' ') << "Category name: " << subcategory.getName() << endl;
+            cout << string(spaces, ' ') << "Category perMille: " << subcategory.getPerMille() << endl;
+            categoriesPerMilleSum += subcategory.getPerMille(); 
+            calculatePerMilleSum(subcategory, level+1);
+        }
+        cout <<  endl << string(spaces, ' ') << "Category perMille sum: " << categoriesPerMilleSum << endl;
+    }
 }
 
 }

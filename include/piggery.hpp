@@ -18,7 +18,7 @@ public:
     Category& getTreeRootNode();
     void distributeAmountInCents(Category& category, const int amountInCents, const unsigned int superPerMille = 1000);
     void createPictureOfTree(Category& category);
-    unsigned int calculatePerMilleSum(Category& category, const unsigned int superPerMille = 1000);
+    void calculatePerMilleSum(Category& category, const int level = 0) const;
 
 private:
     sqlite::database db;
