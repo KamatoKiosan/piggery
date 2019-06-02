@@ -22,6 +22,7 @@ class Piggybank
         const int getGoalInCents();
         void setRemark(const std::string remark);
         const std::string getRemark();
+        void erase();
 
     private:
         sqlite::database db;

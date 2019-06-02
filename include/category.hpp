@@ -22,6 +22,7 @@ class Category
         std::vector<Category> getSubcategories();
         void addPiggybank(const Piggybank&);
         std::vector<Piggybank> getPiggybanks();
+        void erase();
         //friend std::ostream &operator<<( std::ostream &output, const Category &category);
 
     private:

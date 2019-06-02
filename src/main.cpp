@@ -88,6 +88,22 @@ int main()
     piggybank.debitAmountInCents(100);
     */
 
+    // Erase a piggybank
+    /*
+    {
+        Piggybank piggybank{db, 1};
+        piggybank.erase();
+    }
+    */
+
+    // Erase a category
+    /*
+    {
+        Category category{db, 3};
+        category.erase();
+    }
+    */
+
     piggery.createPictureOfTree(treeRootNode);
 
     return 0;

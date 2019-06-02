@@ -116,3 +116,8 @@ const std::string Piggybank::getRemark() {
     return remark;
 }
 
+void Piggybank::erase() {
+    db << "DELETE FROM piggybank WHERE rowid = ?;"
+       << rowId;
+}
+

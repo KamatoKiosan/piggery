@@ -106,7 +106,7 @@ void Piggery::createPictureOfTree(Category& category) {
     createPictureOfTreeFooter(outfile);
     outfile.close();
     // TODO: DRY
-    system("dot -Tpdf graph.dot -o out.pdf");
+    system("dot -Tpdf graph.dot -o graph.pdf");
 }
 
 void Piggery::createPictureOfTreeHeader(ofstream& outfile) {

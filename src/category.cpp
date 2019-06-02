@@ -84,6 +84,15 @@ std::vector<Piggybank> Category::getPiggybanks() {
     return piggybanks;
 }
 
+void Category::erase() {
+    db << "UPDATE piggybank SET categoryId = 0 WHERE categoryId = ?;"
+       << rowId;
+    db << "UPDATE category SET parentCategoryId = 0 WHERE parentCategoryId = ?;"
+       << rowId;
+    db << "DELETE FROM category WHERE rowid = ?;"
+       << rowId;
+}
+
 /*
 std::ostream& operator<<(std::ostream& os, const Category& category) {
     os << "category";
