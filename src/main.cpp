@@ -94,6 +94,18 @@ int main()
     }
     */
 
+    // Reinvest a piggybank
+    /*
+    {
+        Piggybank piggybank{db, 1};
+        const int balanceInCents = piggybank.getBalanceInCents();
+        cout << "Balance in cents: " << balanceInCents << endl;
+        piggybank.debitAmountInCents(balanceInCents);
+        piggybank.erase();
+        piggery.distributeAmountInCents(treeRootNode, balanceInCents);
+    }
+    */
+
     // Erase a category
     /*
     {
