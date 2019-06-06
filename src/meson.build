@@ -5,7 +5,6 @@
 #    install : true) # :code:`libuuid` will be part of project installation
 
 src = [
-    'account.cpp',
     'category.cpp',
     'piggery.cpp',
     'piggybank.cpp'
