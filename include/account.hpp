@@ -1,17 +1,22 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "sqlite_modern_cpp.h"
 
 class Account
 {
     public:
-        Account(std::string name);
+        Account(sqlite::database& db, const std::string name);
+        Account(sqlite::database& db, const int rowId);
 
-        const std::string getName() const;
-        const int getBalanceInCents() const;
+        const int getRowId() const;
+        void setName(const std::string name);
+        const std::string getName();
+        const int getBalanceInCents();
+        void erase();
 
     private:
-        std::string name;
-        int balanceInCents;
+        sqlite::database db;
+        int rowId;
 };
 

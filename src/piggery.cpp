@@ -29,11 +29,14 @@ Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
         "balanceInCents INTEGER DEFAULT 0, "
         "goalInCents INTEGER DEFAULT 0, "
         "remark TEXT DEFAULT '', "
+        "accountId INTEGER DEFAULT 0, "
         "categoryId INTEGER DEFAULT 0"
         ");";
     db <<
-        "CREATE INDEX IF NOT EXISTS idx_piggybank_categoryId"
-        " ON piggybank (categoryId);";
+        "CREATE TABLE IF NOT EXISTS account ("
+        "rowid INTEGER PRIMARY KEY, "
+        "name TEXT NOT NULL"
+        ");";
     db <<
         "CREATE TABLE IF NOT EXISTS log ("
         "rowid INTEGER PRIMARY KEY, "
@@ -43,6 +46,12 @@ Piggery::Piggery(sqlite::database& db): db{db}, treeRootNode{db} {
         "piggybankName TEXT NOT NULL, "
         "amountInCents INTEGER NOT NULL"
         ");";
+    db <<
+        "CREATE INDEX IF NOT EXISTS idx_piggybank_categoryId"
+        " ON piggybank (categoryId);";
+    db <<
+        "CREATE INDEX IF NOT EXISTS idx_piggybank_accountId"
+        " ON piggybank (accountId);";
     int count = 0;
     db <<
         "SELECT COUNT(*) FROM category WHERE rowid = 1;" >> count;
