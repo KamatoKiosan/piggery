@@ -114,8 +114,33 @@ int main()
     }
     */
 
+    // Create a account
+    /*
+    {
+        Account account{db, "Account1"};
+    }
+    */
+
+    // Erase a account
+    /*
+    {
+        Account account{db, 2};
+        account.erase();
+    }
+    */
+
+    // Add piggybank to account
+    /*
+    {
+        Account account{db, 1};
+        Piggybank piggybank{db, 1};
+        account.addPiggybank(piggybank);
+    }
+    */
+
     piggery.calculatePerMilleSum(treeRootNode);
     piggery.createPictureOfTree(treeRootNode);
+    piggery.createPictureOfAccounts();
 
     return 0;
 }

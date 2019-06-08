@@ -86,6 +86,18 @@ Category& Piggery::getTreeRootNode() {
     return treeRootNode;
 }
 
+
+std::vector<Account> Piggery::getAccounts() {
+    std::vector<Account> vec{};
+    db <<
+        "SELECT rowid FROM account;"
+        >> [&](int rowId) {
+            Account account{db, rowId};
+            vec.push_back(account);
+        };
+    return vec;
+}
+
 void Piggery::distributeAmountInCents(Category& category, const int amountInCents, const unsigned int superPerMille) {
     for (Category& subcategory : category.getSubcategories()) {
         cout << endl;
@@ -105,8 +117,50 @@ void Piggery::distributeAmountInCents(Category& category, const int amountInCent
     }
 }
 
+void Piggery::createPictureOfAccounts() {
+    const string outfileName{"accounts.dot"};
+    ofstream outfile;
+    outfile.open(outfileName);
+
+    outfile << "digraph g {" << endl;
+    outfile << "graph [" << endl;
+    outfile << "rankdir = \"LR\"" << endl;
+    outfile << "];" << endl;
+    outfile << "node [" << endl;
+    outfile << "shape = \"record\"" << endl;
+    outfile << "];" << endl;
+
+    for (Account account : getAccounts()) {
+        outfile << "nodeAccount" << account.getRowId();
+        outfile << "[label = \"";
+        outfile << "<f0> Account ID " << account.getRowId();
+        outfile << " | ";
+        outfile << "Name: " << account.getName();
+        outfile << "\"];";
+        outfile << endl;
+
+        for (Piggybank& piggybank : account.getPiggybanks()) {
+            outfile << "nodePiggybank" << piggybank.getRowId();
+            outfile << "[label = \"";
+            outfile << "<f0> Piggybank ID " << piggybank.getRowId();
+            outfile << " | ";
+            outfile << "Name: " << piggybank.getName();
+            outfile << "\"];";
+            outfile << endl;
+            outfile << "\"nodePiggybank" << piggybank.getRowId();
+            outfile << "\":f0 -> \"nodeAccount" << account.getRowId() << "\":f0" << endl;
+        }
+    }
+
+    outfile << "}" << endl;
+
+    outfile.close();
+    // TODO: DRY
+    system("dot -Tpdf accounts.dot -o accounts.pdf");
+}
+
 void Piggery::createPictureOfTree(Category& category) {
-    const string outfileName{"graph.dot"};
+    const string outfileName{"categories.dot"};
     ofstream outfile;
     outfile.open(outfileName);
     createPictureOfTreeHeader(outfile);
@@ -115,7 +169,7 @@ void Piggery::createPictureOfTree(Category& category) {
     createPictureOfTreeFooter(outfile);
     outfile.close();
     // TODO: DRY
-    system("dot -Tpdf graph.dot -o graph.pdf");
+    system("dot -Tpdf categories.dot -o categories.pdf");
 }
 
 void Piggery::createPictureOfTreeHeader(ofstream& outfile) {

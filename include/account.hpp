@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include "piggybank.hpp"
 #include "sqlite_modern_cpp.h"
 
 class Account
@@ -13,6 +14,9 @@ class Account
         void setName(const std::string name);
         const std::string getName();
         const int getBalanceInCents();
+        void addPiggybank(const Piggybank&);
+        std::vector<Piggybank> getPiggybanks();
+        void removePiggybank(const Piggybank&);
         void erase();
 
     private:

@@ -84,6 +84,11 @@ std::vector<Piggybank> Category::getPiggybanks() {
     return piggybanks;
 }
 
+void Category::removePiggybank(const Piggybank& piggybank) {
+    db << "UPDATE piggybank SET categoryId = 0 WHERE rowid = ?;"
+       << piggybank.getRowId();
+}
+
 void Category::erase() {
     db << "UPDATE piggybank SET categoryId = 0 WHERE categoryId = ?;"
        << rowId;
