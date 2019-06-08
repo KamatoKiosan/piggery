@@ -36,8 +36,7 @@
 .ninja_log
 
 # Build directory
-/builddirclang
-/builddirgcc
+/builddir
 
 # Database files
 *.db
