@@ -41,9 +41,18 @@ const int Piggybank::getPerMille() {
 }
 
 void Piggybank::setBalanceInCents(const int balanceInCents) {
+    std::string name;
     db << "UPDATE piggybank SET balanceInCents = ? WHERE rowid = ?;"
        << balanceInCents
        << rowId;
+    db << "SELECT name FROM piggybank WHERE rowid = ?;"
+       << rowId
+       >> name;
+    db << "INSERT INTO log (action, piggybankId, piggybankName, amountInCents) VALUES (?, ?, ?, ?);"
+       << "set"
+       << rowId
+       << name
+       << balanceInCents;
 }
 
 void Piggybank::addAmountInCents(const int amountInCents) {
@@ -117,6 +126,16 @@ const std::string Piggybank::getRemark() {
 }
 
 void Piggybank::erase() {
+    std::string name;
+    int balanceInCents;
+    db << "SELECT name, balanceInCents FROM piggybank WHERE rowid = ?;"
+       << rowId
+       >> tie(name, balanceInCents);
+    db << "INSERT INTO log (action, piggybankId, piggybankName, amountInCents) VALUES (?, ?, ?, ?);"
+       << "erase"
+       << rowId
+       << name
+       << balanceInCents;
     db << "DELETE FROM piggybank WHERE rowid = ?;"
        << rowId;
 }
