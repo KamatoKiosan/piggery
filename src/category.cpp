@@ -84,7 +84,7 @@ std::vector<Piggybank> Category::getPiggybanks() {
     return piggybanks;
 }
 
-void Category::divideAmountEvenly() {
+void Category::dividePerMilleEvenly() {
     const std::vector<Piggybank> piggybanks = getPiggybanks();
     const int perMille = 1000 / piggybanks.size();
     for(auto& piggybank: piggybanks) {

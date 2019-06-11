@@ -144,7 +144,7 @@ int main()
     piggybank1.setPerMille(900);
     Piggybank piggybank2{db, 2};
     piggybank2.setPerMille(100);
-    category3.divideAmountEvenly();
+    category3.dividePerMilleEvenly();
     */
 
     piggery.calculatePerMilleSum(treeRootNode);
