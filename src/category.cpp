@@ -84,6 +84,16 @@ std::vector<Piggybank> Category::getPiggybanks() {
     return piggybanks;
 }
 
+void Category::divideAmountEvenly() {
+    const std::vector<Piggybank> piggybanks = getPiggybanks();
+    const int perMille = 1000 / piggybanks.size();
+    for(auto& piggybank: piggybanks) {
+        db << "UPDATE piggybank SET perMille = ? WHERE rowid = ?;"
+           << perMille
+           << piggybank.getRowId();
+    }
+}
+
 void Category::removePiggybank(const Piggybank& piggybank) {
     db << "UPDATE piggybank SET categoryId = 0 WHERE rowid = ?;"
        << piggybank.getRowId();

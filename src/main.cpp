@@ -138,6 +138,15 @@ int main()
     }
     */
 
+    /*
+    Category category3{db, 3};
+    Piggybank piggybank1{db, 1};
+    piggybank1.setPerMille(900);
+    Piggybank piggybank2{db, 2};
+    piggybank2.setPerMille(100);
+    category3.divideAmountEvenly();
+    */
+
     piggery.calculatePerMilleSum(treeRootNode);
     piggery.createPictureOfTree(treeRootNode);
     piggery.createPictureOfAccounts();

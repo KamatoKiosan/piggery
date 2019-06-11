@@ -24,6 +24,7 @@ class Category
         std::vector<Piggybank> getPiggybanks();
         void removePiggybank(const Piggybank&);
         void erase();
+        void divideAmountEvenly();
         //friend std::ostream &operator<<( std::ostream &output, const Category &category);
 
     private:
