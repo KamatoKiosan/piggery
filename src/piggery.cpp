@@ -169,7 +169,7 @@ void Piggery::createPictureOfTree(Category& category) {
     createPictureOfTreeFooter(outfile);
     outfile.close();
     // TODO: DRY
-    system("dot -Tpdf categories.dot -o categories.pdf");
+    system("circo -Tpdf categories.dot -o categories.pdf");
 }
 
 void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
@@ -180,14 +180,14 @@ void Piggery::createPictureOfTreeHeader(ofstream& outfile) {
     outfile << "node [" << endl;
     outfile << "shape = \"record\"" << endl;
     outfile << "];" << endl;
-    outfile << "nodeCategory1[label = \"<f0> Category 1 | Input | 100%\"];" << endl;
+    outfile << "nodeCategory1[label = \"Category 1 | Input | 100%\"];" << endl;
 }
 
 void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, const unsigned int superPerMille) {
     for (Category& subcategory : category.getSubcategories()) {
         outfile << "nodeCategory" << subcategory.getRowId();
         outfile << "[label = \"";
-        outfile << "<f0> Category ID " << subcategory.getRowId();
+        outfile << "Category ID " << subcategory.getRowId();
         outfile << " | ";
         outfile << "Name: " << subcategory.getName();
         outfile << " | ";
@@ -199,12 +199,12 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
         outfile << "\"];";
         outfile << endl;
         outfile << "\"nodeCategory" << category.getRowId();
-        outfile << "\":f0 -> \"nodeCategory" << subcategory.getRowId() << "\":f0" << endl;
+        outfile << "\" -> \"nodeCategory" << subcategory.getRowId() << "\"" << endl;
 
         for (Piggybank& piggybank : subcategory.getPiggybanks()) {
             outfile << "nodePiggybank" << piggybank.getRowId();
             outfile << "[label = \"";
-            outfile << "<f0> Piggybank ID " << piggybank.getRowId();
+            outfile << "Piggybank ID " << piggybank.getRowId();
             outfile << " | ";
             outfile << "Name: " << piggybank.getName();
             outfile << " | ";
@@ -230,10 +230,10 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
                 outfile << "\"];";
                 outfile << endl;
                 outfile << "\"nodePiggybank" << piggybank.getRowId();
-                outfile << "\":f0 -> \"nodeRemark" << piggybank.getRowId() << "\"" << endl;
+                outfile << "\" -> \"nodeRemark" << piggybank.getRowId() << "\"" << endl;
             }
             outfile << "\"nodeCategory" << subcategory.getRowId();
-            outfile << "\":f0 -> \"nodePiggybank" << piggybank.getRowId() << "\":f0" << endl;
+            outfile << "\" -> \"nodePiggybank" << piggybank.getRowId() << "\"" << endl;
         }
         createPictureOfTreeBody(outfile, subcategory, superPerMille * subcategory.getPerMille() / 1000);
     }
