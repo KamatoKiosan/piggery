@@ -244,10 +244,10 @@ void Piggery::createPictureOfTreeFooter(ofstream& outfile) {
 }
 
 void Piggery::calculatePerMilleSum(Category& category, const int level) const {
-    //const static unsigned int SPACES_PER_LEVEL = 2;
+    const static unsigned int SPACES_PER_LEVEL = 2;
     unsigned int categoriesPerMilleSum = 0;
     unsigned int piggybanksPerMilleSum = 0;
-    //const unsigned int spaces = level * SPACES_PER_LEVEL;
+    const unsigned int spaces = level * SPACES_PER_LEVEL;
     if (!category.getPiggybanks().empty()) {
         for (Piggybank& piggybank : category.getPiggybanks()) {
             // cout << string(spaces, ' ') << "Piggybank ID: " << piggybank.getRowId() << endl;
@@ -266,7 +266,7 @@ void Piggery::calculatePerMilleSum(Category& category, const int level) const {
             categoriesPerMilleSum += subcategory.getPerMille(); 
             calculatePerMilleSum(subcategory, level+1);
         }
-        // cout <<  endl << string(spaces, ' ') << "Category perMille sum: " << categoriesPerMilleSum << endl;
+        cout <<  endl << string(spaces, ' ') << "Category perMille sum: " << categoriesPerMilleSum << endl;
     }
 }
 
