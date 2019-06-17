@@ -1,6 +1,8 @@
 #include "../include/doctest.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 #include "../include/nlohmann/json.hpp"
 #include <vector>
 #include "../include/piggery.hpp"
@@ -216,7 +218,12 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << " | ";
             outfile.precision(2);
             outfile << "Balance: " << piggybank.getBalanceInCents() / 100.0 << " €";
-            cout << piggybank.getName() << ": " << piggybank.getBalanceInCents() / 100.0 << " €" << endl;
+            std::stringstream ss;
+            // Sets the local configuration
+            ss.imbue(std::locale(""));
+            // Value in cents!
+            ss << std::showbase << std::put_money(piggybank.getBalanceInCents());
+            cout << piggybank.getName() << ": " << ss.str() << endl;
             outfile << " | ";
             outfile.precision(2);
             outfile << "Goal: " << piggybank.getGoalInCents() / 100.0 << " €";
