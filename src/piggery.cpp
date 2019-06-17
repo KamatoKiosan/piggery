@@ -216,6 +216,7 @@ void Piggery::createPictureOfTreeBody(ofstream& outfile, Category& category, con
             outfile << " | ";
             outfile.precision(2);
             outfile << "Balance: " << piggybank.getBalanceInCents() / 100.0 << " €";
+            cout << piggybank.getName() << ": " << piggybank.getBalanceInCents() / 100.0 << " €" << endl;
             outfile << " | ";
             outfile.precision(2);
             outfile << "Goal: " << piggybank.getGoalInCents() / 100.0 << " €";
