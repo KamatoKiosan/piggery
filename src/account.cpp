@@ -8,7 +8,7 @@ Account::Account(sqlite::database& db, const std::string name): db{db} {
   
 Account::Account(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {}
 
-const int Account::getRowId() const {
+int Account::getRowId() const {
     return rowId;
 }
 
@@ -48,7 +48,7 @@ void Account::removePiggybank(const Piggybank& piggybank) {
        << piggybank.getRowId();
 }
 
-const int Account::getBalanceInCents() {
+int Account::getBalanceInCents() {
     int sumBalanceInCents = 0;
     db << "SELECT SUM(balanceInCents) FROM piggybank WHERE accountId = ?;"
        << rowId

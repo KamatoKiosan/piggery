@@ -12,11 +12,11 @@ class Category
         Category(sqlite::database& db, const int rowId);
 
         void init();
-        const int getRowId() const;
+        int getRowId() const;
         void setName(const std::string name);
         const std::string getName();
         void setPerMille(const unsigned int perMille);
-        const unsigned int getPerMille();
+        unsigned int getPerMille();
         void addSubcategory(const Category&);
         void removeSubcategory(const Category&);
         std::vector<Category> getSubcategories();

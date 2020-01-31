@@ -10,10 +10,10 @@ class Account
         Account(sqlite::database& db, const std::string name);
         Account(sqlite::database& db, const int rowId);
 
-        const int getRowId() const;
+        int getRowId() const;
         void setName(const std::string name);
         const std::string getName();
-        const int getBalanceInCents();
+        int getBalanceInCents();
         void addPiggybank(const Piggybank&);
         std::vector<Piggybank> getPiggybanks();
         void removePiggybank(const Piggybank&);

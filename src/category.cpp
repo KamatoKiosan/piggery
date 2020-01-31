@@ -13,7 +13,7 @@ Category::Category(sqlite::database& db): db{db}, rowId{1} {}
 
 Category::Category(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {}
 
-const int Category::getRowId() const {
+int Category::getRowId() const {
     return rowId;
 }
 
@@ -37,7 +37,7 @@ void Category::setPerMille(const unsigned int perMille) {
        << rowId;
 }
 
-const unsigned int Category::getPerMille() {
+unsigned int Category::getPerMille() {
     int perMille; 
     db << "SELECT perMille FROM category WHERE rowid = ?;"
        << rowId

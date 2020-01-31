@@ -8,7 +8,7 @@ Piggybank::Piggybank(sqlite::database& db, const std::string name): db{db} {
   
 Piggybank::Piggybank(sqlite::database& db, const int rowId): db{db}, rowId{rowId} {}
 
-const int Piggybank::getRowId() const {
+int Piggybank::getRowId() const {
     return rowId;
 }
 
@@ -32,7 +32,7 @@ void Piggybank::setPerMille(const int perMille) {
        << rowId;
 }
 
-const int Piggybank::getPerMille() {
+int Piggybank::getPerMille() {
     int perMille;
     db << "SELECT perMille FROM piggybank WHERE rowid = ?;"
        << rowId
@@ -89,7 +89,7 @@ void Piggybank::debitAmountInCents(const int amountInCents) {
        << amountInCents;
 }
 
-const int Piggybank::getBalanceInCents() {
+int Piggybank::getBalanceInCents() {
     int balanceInCents;
     db << "SELECT balanceInCents FROM piggybank WHERE rowid = ?;"
        << rowId
@@ -103,7 +103,7 @@ void Piggybank::setGoalInCents(const int goalInCents) {
        << rowId;
 }
 
-const int Piggybank::getGoalInCents() {
+int Piggybank::getGoalInCents() {
     int goalInCents;
     db << "SELECT goalInCents FROM piggybank WHERE rowid = ?;"
        << rowId
